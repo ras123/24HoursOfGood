@@ -54,11 +54,18 @@ body {
 	margin: 0 auto;		
 }
 
+a {
+	text-decoration: none;
+	color: orange;
+}
+
 #WelcomeMessage {
 	text-align: center;
 	margin-top: 200px;
 	margin-bottom: 20px;
-	font-size: 18px;
+	font-size: 20px;
+	color: rgb(100,100,100);
+	
 }
 
 #WelcomeMessage span {
@@ -72,15 +79,24 @@ body {
 	border: 1px solid rgb(200,200,200);
 	border-radius: 4px;
 	margin: 0 auto;		
-	box-shadow: 0px 4px 4px -4px rgb(200,200,200);
+	box-shadow: 0px 8px 4px -4px rgb(200,200,200);
 }
 
 #LoginButton {
 	width: 140px;
     text-align: center;
-    padding-top: 6px;
-    padding-bottom: 6px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     border-radius: 4px;
     border: 1px solid rgb(200,200,200);
     margin: 0 auto;
+    background-color: #0126B1;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#4D90FD', endColorstr='#4787ED');
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#4D90FD), to(#4787ED));
+	background-image: -webkit-linear-gradient(top, #4D90FD, #4787ED);
+	background-image: -moz-linear-gradient(top, #4D90FD, #4787ED);
+	background-image: -o-linear-gradient(top, #4D90FD, #4787ED);
+	background-image: -ms-linear-gradient(top, #4D90FD, #4787ED);
+	background-image: linear-gradient(top, #4D90FD, #4787ED);
+	color: white;
 }

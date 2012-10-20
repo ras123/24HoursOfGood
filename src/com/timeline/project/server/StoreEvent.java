@@ -31,8 +31,7 @@ public class StoreEvent extends HttpServlet {
 	@Override
 	public void init() throws ServletException {
 		// TODO Auto-generated method stub
-		super.init();
-		
+		super.init();		
 	}
 
 	public void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -70,7 +69,7 @@ public class StoreEvent extends HttpServlet {
         
         // Create an entity to store event properties.
 		Entity entity = new Entity(KeyFactory.createKey(userId, eventId));
-		entity.setProperty("user", user);
+		entity.setProperty("userId", userId);
 		entity.setProperty("title", title);
 		entity.setProperty("colourCode", colourCode);
 		entity.setProperty("notes", notes);
