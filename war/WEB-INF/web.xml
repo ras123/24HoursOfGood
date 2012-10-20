@@ -13,7 +13,7 @@
   
   <!-- Default page to serve -->
   <welcome-file-list>
-    <welcome-file>Login.html</welcome-file>
+    <welcome-file>Login.jsp</welcome-file>
   </welcome-file-list>
 
   <servlet>
@@ -29,5 +29,4 @@
     <servlet-name>SystemServiceServlet</servlet-name>
     <url-pattern>/_ah/spi/*</url-pattern>
   </servlet-mapping>
-
 </web-app>
