@@ -72,10 +72,12 @@
 UpdateEventHandlers();
 
 $(function() {
+
 	$.ajax({
 	  	url: '/timeline/getEvents',
 	  	type: 'GET',
-	  	dataType: "json",
+	  	dataType: "text",
+
 	 	success: function(data) {
 			console.log(data);
 			
