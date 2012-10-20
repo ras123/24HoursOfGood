@@ -44,7 +44,7 @@ public class Event {
 		return userId;
 	}
 	
-	public int setUserid(int userId) {
+	public void setUserId(int userId) {
 		this.userId = userId;
 	}
 	
