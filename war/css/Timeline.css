@@ -176,6 +176,8 @@ textarea {
     background-repeat: no-repeat;
 }
 
+
+
 #UserButton {
     position: absolute;
     top: 0px;
@@ -306,6 +308,7 @@ textarea {
     border: 1px solid rgb(200,200,200);
     box-shadow: 0px 8px 4px -4px rgb(200,200,200);
     border-radius: 4px;
+    background-image: url(../images/Image1.jpg);
 }
 
 
