@@ -30,7 +30,7 @@ import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
 
 @SuppressWarnings("serial")
-public class GetEvents extends HttpServlet {
+public class GetEventsServlet extends HttpServlet {
 	
 	@Override
 	public void init() throws ServletException {
@@ -155,18 +155,19 @@ public class GetEvents extends HttpServlet {
 		PreparedQuery pq = datastore.prepare(q);
 		
 		List<Entity> list = new ArrayList<Entity>();
+		Gson gson = new Gson();
+		String eventsJson = "";
 		
 		for (Entity result : pq.asIterable()) {
 			String entry = (String) result.getProperty("userId");
 			
 			if(userId.equals(entry))
 			{
-				list.add(result);
+				System.out.println(gson.toJson(result));
+				eventsJson += gson.toJson(result);
 			}			
 		}
 		
-		Gson gson = new Gson();
-		String eventsJson = gson.toJson(list.toString());
 		return eventsJson;
 	}
 }

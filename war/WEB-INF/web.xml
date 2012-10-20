@@ -8,7 +8,7 @@
   
   <servlet>
     <servlet-name>storeEvent</servlet-name>
-    <servlet-class>com.timeline.project.server.StoreEvent</servlet-class>
+    <servlet-class>com.timeline.project.server.StoreEventServlet</servlet-class>
   </servlet>
   
   <servlet>
@@ -18,7 +18,12 @@
   
   <servlet>
   	<servlet-name>getEvents</servlet-name>
-  	<servlet-class>com.timeline.project.server.GetEvents</servlet-class>
+  	<servlet-class>com.timeline.project.server.GetEventsServlet</servlet-class>
+  </servlet>
+  
+  <servlet>
+  	<servlet-name>getPostSecondaryNames</servlet-name>
+  	<servlet-class>com.timeline.project.server.GetPostSecondaryServlet</servlet-class>
   </servlet>
   
   <servlet-mapping>
@@ -28,7 +33,7 @@
   
   <servlet-mapping>
     <servlet-name>storeEvent</servlet-name>
-    <url-pattern>/timeline/createEvent/</url-pattern>
+    <url-pattern>/timeline/createEvent/*</url-pattern>
   </servlet-mapping>
   
   <servlet-mapping>
@@ -39,6 +44,11 @@
   <servlet-mapping>
     <servlet-name>deleteEvent</servlet-name>
     <url-pattern>/timeline/deleteEvent</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+  	<servlet-name>getPostSecondaryNames</servlet-name>
+  	<url-pattern>/timeline/getPostSecondaries</url-pattern>
   </servlet-mapping>
   
   <!-- Default page to serve -->
