@@ -154,19 +154,19 @@ public class GetEventsServlet extends HttpServlet {
 		Query q = new Query("Event");
 		PreparedQuery pq = datastore.prepare(q);
 		
-		List<Entity> list = new ArrayList<Entity>();
-		Gson gson = new Gson();
-		String eventsJson = "";
+		List<Entity> events = new ArrayList<Entity>();
 		
 		for (Entity result : pq.asIterable()) {
 			String entry = (String) result.getProperty("userId");
 			
 			if(userId.equals(entry))
 			{
-				System.out.println(gson.toJson(result));
-				eventsJson += gson.toJson(result);
+				events.add(result);
 			}			
 		}
+		
+		Gson gson = new Gson();
+		String eventsJson = gson.toJson(events);
 		
 		return eventsJson;
 	}
