@@ -72,19 +72,22 @@
 UpdateEventHandlers();
 
 $(function() {
-
 	$.ajax({
 	  	url: '/timeline/getEvents',
 	  	type: 'GET',
-	  	dataType: "text",
+	  	dataType: "json",
 
-	 	success: function(data) {
-			console.log(data);
+	 	success: function(newData) {
 			
-	 		//$("#EventList").prepend("<div data-eventId='"+data.key.id+"' class='Event' style='display: none; border: 1px solid #"+data.propertyMap.colourCode+";'><div class='EventDate' style='background-color: #"+data.propertyMap.colourCode+";'>"+data.propertyMap.startDate+"</div><div class='EventTitle'>"+data.propertyMap.title+"</div><div class='EventHidden'><div class='EventPostSecondaryName'>Post Secondary Institute: "+data.propertyMap.postSecondaryName+"</div><div class='EventStartDate'><span>Start Date:</span> "+data.propertyMap.startDate+"</div><div class='EventEndDate'><span>End Date:</span> "+data.propertyMap.endDate+"</div><div class='EventNotes'>Notes: "+data.propertyMap.notes+"</div></div></div>");
-	 		//UpdateEventHandlers();
-	 		//$("#EventList").find(".Event:first-child").slideDown(1000);
-	 		//DisplayMessage("Event successfully added!");
+			var index = 0;			
+			while (index < newData.length) {				
+				var data = newData[index];
+				$("#EventList").prepend("<div data-eventId='"+data.key.id+"' class='Event' style='; border: 1px solid #"+data.propertyMap.colourCode+";'><div class='EventDate' style='background-color: #"+data.propertyMap.colourCode+";'>"+data.propertyMap.startDate+"</div><div class='EventTitle'>"+data.propertyMap.title+"</div><div class='EventHidden'><div class='EventPostSecondaryName'>Post Secondary Institute: "+data.propertyMap.postSecondaryName+"</div><div class='EventStartDate'><span>Start Date:</span> "+data.propertyMap.startDate+"</div><div class='EventEndDate'><span>End Date:</span> "+data.propertyMap.endDate+"</div><div class='EventNotes'>Notes: "+data.propertyMap.notes+"</div></div></div>");
+				index++;
+			}	
+	 		
+	 		UpdateEventHandlers();	 		
+	 		DisplayMessage("Events successfully loaded!");
 		}
 	});
 });
