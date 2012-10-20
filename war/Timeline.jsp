@@ -17,19 +17,24 @@
     <title>Calendar</title>    
 </head>
 <div id="LightBox">
-	<div class="FormContainer">
+	<div id="CreateEventFormContainer" class="FormContainer">
 		<div class="FormTitle">Create a new event</div>
-		<form>
+		
+		<form id="CreateEventForm">
 		<br />
-			<div class="Label">Event Title</div><input type="text" name="title"><br/><br/>
-			<div class="Label">Start Date</div><input id="StartDate" type="text" name="startDate"><div class="Label">Start Time</div><input id="StartTime" type="text" name="startTime"><br/>
+			<div class="Label">Event Title</div><input class="Title" type="text" name="title" value="Event Title"><br/><br/>
+			
+			<div class="Label">Univeristy</div><input class="PostSecondaryName" type="text" name="postSecondaryName" value="UBC"><br/><br/>
+			
+			<div class="Label">Start Date</div><input class="StartDate" id="StartDate" type="text" name="startDate"><div class="Label">Start Time</div><input class="StartTime" id="StartTime" type="text" name="startTime" value="9:00"><br/>
 			
 			
-			<div class="Label">End Date</div><input id="EndDate" type="text" name="endDateTime"><div class="Label">End Time</div><input id="EndTime" type="text" name="endDateTime"><br/>
+			<div class="Label">End Date</div><input class="EndDate" id="EndDate" type="text" name="endDateTime"><div class="Label">End Time</div><input class="EndTime" id="EndTime" type="text" name="endDateTime" value="17:00"><br/>
 			
-			<div class="Label">Event Color</div><input id="ColorCode" type="text" name="colorCode"><br/><br/>
+			<div class="Label">Event Color</div><input class="ColorCode" id="ColorCode" type="text" name="colorCode"><br/><br/>
 			
-			<div class="Label">Details</div><br/><textarea></textarea>
+			<div class="Label">Notes</div><br/><textarea class="Notes">My Notes</textarea>
+			<div id="CreateEventSubmitButton" class="SubmitButton">Create</div>
 		</form>	
 	</div>
 </div>
@@ -96,7 +101,36 @@ $('#ColorCode').ColorPicker({onSubmit: function(hsb, hex, rgb, el) {
 });
 
 $("#CreateEventButton").click(function(){
-	console.log('clicked');
+	
+	$("#LightBox").fadeIn(400);
+	$("#CreateEventFormContainer").fadeIn(400);
+
+	
+});
+
+$(".SubmitButton").click(function(){
+	$("#LightBox").fadeOut(400);
+	$("#CreateEventFormContainer").fadeOut(400);
+	
+	var form = $(this).parents("form");
+	
+	var title = $(form).find(".Title").val();
+	var postSecondaryName = $(form).find(".PostSecondaryName").val();
+	
+	var startDate = $(form).find(".StartDate").val();
+	var startTime = $(form).find(".StartTime").val();
+	var startDateTime = startDate + " " + startTime;
+	
+	var endDate = $(form).find(".EndDate").val();
+	var endTime = $(form).find(".EndTime").val();
+	var endDateTime = endDate + " " + endTime;
+	
+	var colorCode = $(form).find(".ColorCode").val();
+	var notes = $(form).find(".Notes").val();
+	
+	var data = {title: title, postSecondaryName: postSecondaryName, startDate: startDateTime, endDate: endDateTime, colorCode: colorCode, notes: notes};
+	console.log(data);
+	
 	$.ajax({
 	  	url: '/timeline/createEvent',
 	  	type: 'POST',
@@ -105,8 +139,12 @@ $("#CreateEventButton").click(function(){
 	 	success: function(data) {
 	    console.log(data);
 		}
-	});
-});
+	}); 
+
+}); 
+
+
+
 </script>
 </body
 
