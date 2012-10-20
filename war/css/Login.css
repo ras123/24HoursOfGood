@@ -100,3 +100,10 @@ a {
 	background-image: linear-gradient(top, #4D90FD, #4787ED);
 	color: white;
 }
+
+#LoginBoxImage {
+	height: 160px;
+	width: 360px;
+	background-image: url(../images/login_header.jpg);
+	margin: 0 auto;
+}
