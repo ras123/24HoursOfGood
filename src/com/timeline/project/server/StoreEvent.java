@@ -62,17 +62,30 @@ public class StoreEvent extends HttpServlet {
         	System.out.println("Event not created, start date and end date both null.");
         	return;
         }
-        Date startDate = new Date();
-        Date endDate = new Date();
+        System.out.println("start "+startDateStr+ " end "+endDateStr);
+        Date startDate = null;
+        Date endDate = null;
        
         try {
-        	System.out.println("start "+startDateStr+ " end "+endDateStr);
         	if (startDateStr != null) startDate = (Date) formatter.parse(startDateStr);
+        } catch (Exception e) {
+        	System.out.println("Could not parse start date " + e);
+        	startDate = null;
+        }
+        
+        try {
         	if (endDateStr != null) endDate = (Date) formatter.parse(endDateStr);
         } catch (Exception e) {
-        	System.out.println("Event not created, could not parse Dates "+e);
+        	System.out.println("Could not parse end date " + e);
+        	endDate = null;
+        }
+        
+        if (startDate == null && endDate == null) {
+        	System.out.println("Start and end dates are null. Event not created.");
         	return;
         }
+        
+        
 
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         
