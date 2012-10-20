@@ -57,18 +57,39 @@ public class StoreEvent extends HttpServlet {
         String endDateStr = req.getParameter("endDate");
 
         DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-        Date startDate = new Date();
-        Date endDate = new Date();
+        
+        if (startDateStr == null && endDateStr == null) {
+        	System.out.println("Event not created, start date and end date both null.");
+        	return;
+        }
+        System.out.println("start "+startDateStr+ " end "+endDateStr);
+        Date startDate = null;
+        Date endDate = null;
        
         try {
-        	System.out.println("start "+startDateStr+ " end "+endDateStr);
-        	startDate = (Date) formatter.parse(startDateStr);
-        	endDate = (Date) formatter.parse(endDateStr);
+        	if (startDateStr != null) startDate = (Date) formatter.parse(startDateStr);
         } catch (Exception e) {
-        	System.out.println("Could not parse Dates "+e);
+        	System.out.println("Could not parse start date " + e);
+        	startDate = null;
         }
+        
+        try {
+        	if (endDateStr != null) endDate = (Date) formatter.parse(endDateStr);
+        } catch (Exception e) {
+        	System.out.println("Could not parse end date " + e);
+        	endDate = null;
+        }
+        
+        if (startDate == null && endDate == null) {
+        	System.out.println("Start and end dates are null. Event not created.");
+        	return;
+        }
+        
+        
 
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        
+     // Create an entity to store event properties.
         Entity entity = new Entity("Event");
         if (eventId != null) {
         	Key eventKey = KeyFactory.createKey("Event", eventId);
@@ -76,22 +97,28 @@ public class StoreEvent extends HttpServlet {
         	try {
 				entity = datastore.get(eventKey);
 			} catch (EntityNotFoundException e) {
-				System.out.println("Event not found: "+e);
+				System.out.println("Event not updated, event "+eventId+" not found: "+e);
 				return;
 			}
         }
         
-        // Create an entity to store event properties.
+     // Set entity fields
 		entity.setProperty("userId", userId);
 		entity.setProperty("title", title);
 		entity.setProperty("colourCode", colourCode);
 		entity.setProperty("notes", notes);
 		entity.setProperty("postSecondaryName", postSecondaryName);
-		entity.setProperty("startDate", startDate);
 		if (endDateStr == null) {
 			entity.setProperty("eventType", "PointEvent");
+			entity.setProperty("startDate", startDate);
+			entity.setProperty("endDate", null);
+		} else if (startDateStr == null) {
+			entity.setProperty("eventType", "PointEvent");
+			entity.setProperty("startDate", endDate);
+			entity.setProperty("endDate", null);
 		} else {
 			entity.setProperty("eventType", "DurationEvent");
+			entity.setProperty("startDate", startDate);
 			entity.setProperty("endDate", endDate);
 		}
 		
@@ -145,46 +172,67 @@ public class StoreEvent extends HttpServlet {
         return null;
 	}
 	
-	public List<String> doGetEventsByDate(HttpServletRequest req, HttpServletResponse resp) {
+	public List<String> doGetEventsFromDate(HttpServletRequest req, HttpServletResponse resp) {
 		UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();
         String userId = user.getUserId();
         
-     // Get event id from request
         String dateStr = req.getParameter("date");
+        String monthBool = req.getParameter("getMonth");
+        
         DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
         Date date = new Date();
-       
+        
         List<String> eventsJson = new ArrayList<String>();
+        
         try {
-        	date = (Date) formatter.parse(dateStr);
-        } catch (Exception e) {
-        	System.out.println("Could not parse Date, "+date+", "+e);
-        	return eventsJson;
-        }
-        
-        Calendar fromDate = Calendar.getInstance();
-        fromDate.setTime(date);
-        
-        DatastoreService datastore = 
-        		DatastoreServiceFactory.getDatastoreService();
-        
-        Filter userFilter = new FilterPredicate("userId", FilterOperator.EQUAL, userId);
-        Query q = new Query("Event").setFilter(userFilter);
-        PreparedQuery pq = datastore.prepare(q);
-        
-        for (Entity event : pq.asIterable()) {
-        	Date startDate = (Date) event.getProperty("startDate");
-        	Calendar toDate = Calendar.getInstance();
-        	toDate.setTime(startDate);
+         	date = (Date) formatter.parse(dateStr);
+         } catch (Exception e) {
+         	System.out.println("Could not parse Date, "+date+", "+e);
+         	return eventsJson;
+         }
+         
+         Calendar fromDate = Calendar.getInstance();
+         fromDate.setTime(date);
+         
+         DatastoreService datastore = 
+         		DatastoreServiceFactory.getDatastoreService();
+         
+         Filter userFilter = new FilterPredicate("userId", FilterOperator.EQUAL, userId);
+         Query q = new Query("Event").setFilter(userFilter);
+         PreparedQuery pq = datastore.prepare(q);
+         
+        if (monthBool != null) {
         	
-        	if (!toDate.before(fromDate)) {
-        		Gson gson = new Gson();
-    			String json = gson.toJson(event);
-    			eventsJson.add(json);
-        	}
+             for (Entity event : pq.asIterable()) {
+             	Date startDate = (Date) event.getProperty("startDate");
+             	Calendar toDate = Calendar.getInstance();
+             	toDate.setTime(startDate);
+             	
+             	if (!toDate.before(fromDate)) {
+             		Gson gson = new Gson();
+         			String json = gson.toJson(event);
+         			eventsJson.add(json);
+             	}
+             }
+        } else {
+            int fromMonth = fromDate.get(Calendar.MONTH);
+            int fromYear = fromDate.get(Calendar.YEAR);
+            
+            for (Entity event : pq.asIterable()) {
+            	Date startDate = (Date) event.getProperty("startDate");
+            	Calendar toDate = Calendar.getInstance();
+            	toDate.setTime(startDate);
+            	int toMonth = toDate.get(Calendar.MONTH);
+            	int toYear = toDate.get(Calendar.YEAR);
+            	
+            	if (fromMonth == toMonth && fromYear == toYear) {
+            		Gson gson = new Gson();
+        			String json = gson.toJson(event);
+        			eventsJson.add(json);
+            	}
+            }
         }
-        
         return eventsJson;
 	}
 	
@@ -218,7 +266,6 @@ public class StoreEvent extends HttpServlet {
 		try {
 			resp.getWriter().println(json);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
