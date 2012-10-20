@@ -278,10 +278,39 @@ textarea {
     border-radius: 4px;
 }
 
-#Timeline {
+#TimelineWrap {
     width: 5120px;
     height: 480px;
-    display: none;
+    position: relative;  
+    display: none; 
+}
+
+#TimelineWrap .CanvasEvent {
+	position: absolute;
+	
+	z-index: 10;	
+	width: 120px;
+	height: 80px;
+	border: 1px solid #F78121;
+	border-radius: 4px;
+	background-color: white;
+	box-shadow: 4px 4px 4px rgb(200,200,200);
+	cursor: pointer;
+}
+
+.CanvasEventTitle {
+	text-align: center;
+	padding: 4px;
+	color: white;
+	background-color: #F78121;	
+	
+}
+
+.CanvasEventNotes {
+	overflow: hidden;
+	padding: 4px;
+	font-size: 10px;
+	
 }
 
 #EventList {
@@ -289,6 +318,7 @@ textarea {
     padding-left: 20px;
     padding-right: 20px;
     overflow: auto;
+
 }
 
 .DateTitle {
