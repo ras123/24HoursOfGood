@@ -30,6 +30,7 @@
 <div id="LightBox">
 	<div id="CreateEventFormContainer" class="FormContainer">
 		<div class="ExitButton"></div>
+		<div class="ClockWorkOrange"></div>
 		<div class="FormTitle">Create a new event</div>
 		
 		<form id="CreateEventForm">
