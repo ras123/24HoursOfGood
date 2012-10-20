@@ -200,15 +200,11 @@ $("#ModifyEventButton").click(function(){
 		$("#LightBox").fadeIn(400);
 		$("#CreateEventFormContainer").fadeIn(400);
 		$("#HiddenEventId").val(eventKey);
-		$("#CreateEventForm .Title").val(title);
-		$("#CreateEventForm .PostSecondaryName").val(postSecondaryName);
-		$("#CreateEventForm .ColorCode").val(colorCode);
-		$("#CreateEventForm .Notes").val(notes);
+		$("#CreateEventForm.Title").val(title);
+		$("#CreateEventForm.PostSecondaryName").val(postSecondaryName);
+		$("#CreateEventForm.ColorCode").val(colorCode);
+		$("#CreateEventForm.Notes").val(notes);
 	}
-	
-	
-	
-	
 });
 
 $("#DeleteEventButton").click(function(){
