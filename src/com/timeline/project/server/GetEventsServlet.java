@@ -17,7 +17,6 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
-import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
@@ -42,11 +41,11 @@ public class GetEventsServlet extends HttpServlet {
 		
 		String dateStr = req.getParameter("date");
 		String monthBool = req.getParameter("getMonth");
-		String eventId = req.getParameter("id");
+		String eventKeyStr = req.getParameter("key");
 		
 		String json;
-		if (eventId != null) {
-			json = this.getEventById(eventId);
+		if (eventKeyStr != null) {
+			json = this.getEventByKey(eventKeyStr);
 		} else if (dateStr != null) {
 			json = this.getEventsByDate(dateStr, monthBool);
 		} else {
@@ -121,14 +120,11 @@ public class GetEventsServlet extends HttpServlet {
         return eventsJson;
 	}
 	
-	private String getEventById(String eventId) {
-        // Get event id from request
-    	Key eventKey = KeyFactory.createKey("Event", eventId);
-        
+	private String getEventByKey(String eventKeyStr) {
         DatastoreService datastore = 
         		DatastoreServiceFactory.getDatastoreService();
         try {
-			Entity event = datastore.get(eventKey);
+			Entity event = datastore.get(KeyFactory.stringToKey(eventKeyStr));
 	        
 			Gson gson = new Gson();
 			String json = gson.toJson(event);

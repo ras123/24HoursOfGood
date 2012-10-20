@@ -14,7 +14,6 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
-import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
 import com.google.appengine.api.users.User;
@@ -41,7 +40,7 @@ public class StoreEventServlet extends HttpServlet {
         
         // Get event properties from event request
         String title = req.getParameter("title");
-        String eventId = req.getParameter("id");
+        String eventKeyStr = req.getParameter("key");
         String colourCode = req.getParameter("colourCode");
         String notes = req.getParameter("notes");
         String postSecondaryName = req.getParameter("postSecondaryName");
@@ -81,13 +80,13 @@ public class StoreEventServlet extends HttpServlet {
         
      // Create an entity to store event properties.
         Entity entity = new Entity("Event");
-        if (eventId != null) {
-        	Key eventKey = KeyFactory.createKey("Event", eventId);
+        if (eventKeyStr != null) {
+        	System.out.println(eventKeyStr);
         	
         	try {
-				entity = datastore.get(eventKey);
+				entity = datastore.get(KeyFactory.stringToKey(eventKeyStr));
 			} catch (EntityNotFoundException e) {
-				System.out.println("Event not updated, event "+eventId+" not found: "+e);
+				System.out.println("Event not updated, event "+eventKeyStr+" not found: "+e);
 				return;
 			}
         }
