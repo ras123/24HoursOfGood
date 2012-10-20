@@ -85,6 +85,7 @@ public class GetEventsServlet extends HttpServlet {
          
          Filter userFilter = new FilterPredicate("userId", FilterOperator.EQUAL, userId);
          Query q = new Query("Event").setFilter(userFilter);
+         q.addSort("startDate");
          PreparedQuery pq = datastore.prepare(q);
          
         if (monthBool != null) {
@@ -147,7 +148,10 @@ public class GetEventsServlet extends HttpServlet {
 		User user = userService.getCurrentUser();
         String userId = user.getUserId();
         
+        
+        
 		Query q = new Query("Event");
+		q.addSort("startDate");
 		PreparedQuery pq = datastore.prepare(q);
 		
 		List<Entity> events = new ArrayList<Entity>();
