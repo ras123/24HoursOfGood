@@ -131,11 +131,11 @@ $(".SubmitButton").click(function(){
 	
 	var startDate = $(form).find(".StartDate").val();
 	var startTime = $(form).find(".StartTime").val();
-	var startDateTime = startDate + " " + startTime;
+	var startDateTime = startDate + " " + startTime + ":00";
 	
 	var endDate = $(form).find(".EndDate").val();
 	var endTime = $(form).find(".EndTime").val();
-	var endDateTime = endDate + " " + endTime;
+	var endDateTime = endDate + " " + endTime +":00";
 	
 	var colorCode = $(form).find(".ColorCode").val();
 	var notes = $(form).find(".Notes").val();
@@ -169,7 +169,7 @@ $("#SwitchViewButton").toggle(function(){
 	
 });
 
-DisplayMessage("Welcome to the Achieve Timeline application.");
+DisplayMessage("Welcome to the Achieve Timeline Application");
 
 function DisplayMessage(message) {
 	var notificationBar = $("#NotificationBar").text(message);

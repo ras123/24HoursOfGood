@@ -34,7 +34,7 @@ public class StoreEvent extends HttpServlet {
 
 	public void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
-		
+
 		UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();
         String userId = user.getUserId();
@@ -81,10 +81,10 @@ public class StoreEvent extends HttpServlet {
 		datastore.put(entity);
 
 		// Notify the client of success.
-		resp.setContentType("text/plain");
+		resp.setContentType("application/json");
 		Gson gson = new Gson();
 		String json = gson.toJson(entity);
-		resp.getWriter().println("Accepted POST " +json);
+		resp.getWriter().println(json);
 		
 	}
 	
