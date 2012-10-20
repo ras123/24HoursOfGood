@@ -11,16 +11,24 @@
     <servlet-class>com.timeline.project.server.StoreEvent</servlet-class>
   </servlet>
   
+  <servlet>
+    <servlet-name>deleteEvent</servlet-name>
+    <servlet-class>com.timeline.project.server.DeleteEventServlet</servlet-class>
+  </servlet>
+  
   <servlet-mapping>
     <servlet-name>greetServlet</servlet-name>
     <url-pattern>/timeline/greet</url-pattern>
   </servlet-mapping>
   
-  
-  
   <servlet-mapping>
     <servlet-name>storeEvent</servlet-name>
-    <url-pattern>/timeline/createEvent</url-pattern>
+    <url-pattern>/timeline/createEvent/*</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+    <servlet-name>deleteEvent</servlet-name>
+    <url-pattern>/timeline/deleteEvent</url-pattern>
   </servlet-mapping>
   
   <!-- Default page to serve -->
