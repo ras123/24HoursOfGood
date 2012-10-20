@@ -85,6 +85,24 @@ body {
 	margin-top: 300px;
 	border-radius: 8px;
 	box-shadow: 0px 8px 8px -8px rgb(240,240,240);
+	position: relative;
+}
+
+.ExitButton {
+	float: right;
+	color: red;
+	font-weight: bold;
+	font-size: 20px;
+	width: 14px;
+	height: 14px;
+	border-radius: 7px;
+	background-color: red;
+	box-shadow: 0px 0px 4px red;
+	cursor: pointer;
+}
+
+.ExitButton:hover {
+	box-shadow: 0px 0px 12px red;
 }
 
 .colorpicker{
