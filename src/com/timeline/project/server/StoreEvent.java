@@ -1,6 +1,7 @@
 package com.timeline.project.server;
 
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -48,20 +49,21 @@ public class StoreEvent extends HttpServlet {
         String startDateStr = req.getParameter("startDate");
         String endDateStr = req.getParameter("endDate");
 
-        Format formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+        DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
         Date startDate = new Date();
         Date endDate = new Date();
        
         try {
-        	startDate = (Date) formatter.parseObject(startDateStr);
-        	endDate = (Date) formatter.parseObject(endDateStr);
+        	System.out.println("start "+startDateStr+ " end "+endDateStr);
+        	startDate = (Date) formatter.parse(startDateStr);
+        	endDate = (Date) formatter.parse(endDateStr);
         } catch (Exception e) {
         	System.out.println("Could not parse Dates "+e);
         }
         
         // Create an entity to store event properties.
 		Entity entity = new Entity(KeyFactory.createKey("Event", userId));
-		entity.setProperty("user", user);
+		entity.setProperty("userId", userId);
 		entity.setProperty("title", title);
 		entity.setProperty("colourCode", colourCode);
 		entity.setProperty("notes", notes);
