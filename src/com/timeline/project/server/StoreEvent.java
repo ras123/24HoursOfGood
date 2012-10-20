@@ -9,9 +9,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.mortbay.util.ajax.JSON;
+
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
@@ -48,7 +51,7 @@ public class StoreEvent extends HttpServlet {
         String startDateStr = req.getParameter("startDate");
         String endDateStr = req.getParameter("endDate");
 
-        SimpleDateFormat formatter = new SimpleDateFormat("MM/DD/yyyy");
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
         Date startDate = new Date();
         Date endDate = new Date();
        
@@ -86,6 +89,7 @@ public class StoreEvent extends HttpServlet {
 		// Notify the client of success.
 		resp.setContentType("text/plain");
 		resp.getWriter().println("Accepted POST");
+		
 	}
 	
 	public void doDelete(HttpServletRequest req, HttpServletResponse resp) {
@@ -102,26 +106,29 @@ public class StoreEvent extends HttpServlet {
         datastore.delete(eventKey);
         
         resp.setContentType("text/plain");
-        
-        
 	}
 	
-	public void doGetAllEvents(HttpServletRequest req, HttpServletResponse resp) {
+	public String doGetEventById(HttpServletRequest req, HttpServletResponse resp) {
 		UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();
         
-        
+     // Get event id from request
         String eventId = req.getParameter("eventId");
-        
         
     	Key eventKey = KeyFactory.createKey(user.getUserId(), eventId);
         
         DatastoreService datastore = 
         		DatastoreServiceFactory.getDatastoreService();
-        datastore.delete(eventKey);
-        
-        resp.setContentType("text/plain");
-        
-        
+        try {
+			Entity event = datastore.get(eventKey);
+			resp.setContentType("text/plain");
+	        
+			String json = JSON.toString(event);
+			System.out.println("Event Json: "+json);
+	        return json;
+		} catch (EntityNotFoundException e) {
+			System.out.println("Event not found: "+e);
+		}
+        return null;
 	}
 }
