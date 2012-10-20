@@ -1,50 +1,52 @@
 package com.timeline.project.server;
 
+import java.util.Date;
+
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-import org.apache.james.mime4j.field.datetime.DateTime;
-
-import com.google.appengine.api.users.User;
+import com.google.appengine.api.datastore.Key;
+import com.google.apphosting.api.DatastorePb.GetResponse.Entity;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
-public class Event {
+public class Event extends Entity {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2395577088378612431L;
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private Long id;
 	@Persistent
-	private int userId;
+	private Long userId;
 	@Persistent
-	private DateTime startDateTime;
+	private Date startDateTime;
 	@Persistent
-	private DateTime endDateTime;
+	private Date endDateTime;
 	@Persistent
 	private String notes;
 	@Persistent
 	private String colourCode;
 	@Persistent 
 	private String postSecondaryName;
+	@Persistent
+	private String title;
+	@Persistent
+	private String eventType;
 	
-	public Event(int userId, DateTime startDateTime, DateTime endDateTime) {
-		this.userId = userId;
-		this.startDateTime = startDateTime;
-		this.endDateTime = endDateTime;
+	public Event(Key createKey) {
+		super();
 	}
-	
-	public Event(int userId, DateTime startDateTime) {
-		this.userId = userId;
-		this.startDateTime = startDateTime;
-	}
-	
-	public int getUserId() {
+
+	public Long getUserId() {
 		return userId;
 	}
 	
-	public void setUserId(int userId) {
+	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
 	
@@ -56,19 +58,19 @@ public class Event {
 		this.id = id;
 	}
 	
-	public DateTime getstartDateTime() {
+	public Date getstartDateTime() {
 		return startDateTime;
 	}
 	
-	public void setStartDateTime(DateTime startDateTime) {
+	public void setStartDateTime(Date startDateTime) {
 		this.startDateTime = startDateTime;
 	}
 	
-	public DateTime getendDateTime() {
+	public Date getendDateTime() {
 		return endDateTime;
 	}
 	
-	public void setEndDateTime(DateTime endDateTime) {
+	public void setEndDateTime(Date endDateTime) {
 		this.endDateTime = endDateTime;
 	}
 	
@@ -86,5 +88,29 @@ public class Event {
 	
 	public void setColorCode(String colourCode) {
 		this.colourCode = colourCode;
+	}
+	
+	public String getTitle() {
+		return title;
+	}
+	
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	
+	public String getEventType() {
+		return eventType;
+	}
+	
+	public void setEventType(String eventType) {
+		this.eventType = eventType;
+	}
+	
+	public String getPostSecondaryName() {
+		return postSecondaryName;
+	}
+	
+	public void setPostSecondaryName(String postSecondaryName) {
+		this.postSecondaryName = postSecondaryName;
 	}
 }
