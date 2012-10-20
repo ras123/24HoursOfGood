@@ -34,7 +34,7 @@ public class StoreEvent extends HttpServlet {
 	public void init() throws ServletException {
 		// TODO Auto-generated method stub
 		super.init();
-		System.out.println("test");
+		
 	}
 
 	public void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -42,6 +42,7 @@ public class StoreEvent extends HttpServlet {
 		
 		UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();
+
         String userId = user.getUserId();
         
         // Get event properties from event request
@@ -61,6 +62,7 @@ public class StoreEvent extends HttpServlet {
         	endDate = (Date) formatter.parse(endDateStr);
         } catch (Exception e) {
         	System.out.println("Could not parse Dates "+e);
+
         }
         
         // Create an entity to store event properties.
