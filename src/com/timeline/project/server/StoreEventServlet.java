@@ -14,6 +14,7 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
+import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
 import com.google.appengine.api.users.User;
@@ -99,6 +100,7 @@ public class StoreEventServlet extends HttpServlet {
         
      // Create an entity to store event properties.
         Entity entity = new Entity("Event");
+        Key key = entity.getKey();
         if (eventKeyStr != null) {
         	System.out.println(eventKeyStr);
         	
@@ -130,12 +132,14 @@ public class StoreEventServlet extends HttpServlet {
 				entity.setProperty("endDate", endDate);
 			}
 			
+			
 			//System.out.println("entity persisting: "+entity.getKey());
 	
 			// Put the entity in the data store.
 			datastore.put(entity);
+			entity.setProperty("key", KeyFactory.keyToString(entity.getKey()));
 			
-			//System.out.println("entity persisted: "+entity.getKey());
+			System.out.println("entity persisted: "+KeyFactory.keyToString(entity.getKey()));
 	
 			// Notify the client of success.
 			resp.setContentType("application/json");
