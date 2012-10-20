@@ -60,14 +60,6 @@ public class StoreEventServlet extends HttpServlet {
         	System.out.println("Event not created, missing both start and end date.");
         	completeForm = false;
         }
-        else if (startDateStr == null) {
-        	System.out.println("Event not created, missing a start date.");
-        	completeForm = false;
-        }
-        else if (endDateStr == null) {
-        	System.out.println("Event not created, missing an end date.");
-        	completeForm = false;
-        }
         
         //System.out.println("start "+startDateStr+ " end "+endDateStr);
         Date startDate = null;
@@ -91,22 +83,17 @@ public class StoreEventServlet extends HttpServlet {
         
         int dateDifference = (int)( (endDate.getTime() - startDate.getTime())/1000);
        
-        if ((dateDifference < 0) || (endDate.getTime()/(1000*60*60) > 24) || (startDate.getTime()/(1000*60*60) > 24))
+        if ((dateDifference < 0) )//|| (endDate.getTime()/(1000*60*60) > 24) || (startDate.getTime()/(1000*60*60) > 24))
         {
         	completeForm = false;
+        	System.out.println(dateDifference+" date difference");
         }
         
         if ((endDate.getTime()/(1000*60*60) < 0) || (startDate.getTime()/(1000*60*60) < 0))
         {
         	completeForm = false;
+        	System.out.println("neg value");
         }
-        
-        /*
-        if (startDate == null && endDate == null) {
-        	System.out.println("Start and end dates are null. Event not created.");
-        	return;
-        }
-        */
         
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         
@@ -156,6 +143,5 @@ public class StoreEventServlet extends HttpServlet {
 			String json = gson.toJson(entity);
 			resp.getWriter().println(json);
         }
-        
 	}
 }
