@@ -193,10 +193,10 @@ $("#ModifyEventButton").click(function(){
 	var title = $(event).attr("data-title");
 	var postSecondaryName = $(event).attr("data-postSecondaryName");
 	var colorCode = $(event).attr("data-colorCode");
-	console.log(colorCode);
+	
 	var notes = $(event).attr("data-notes");
 	
-	if(parseInt(eventKey) > 0) {
+	if(eventKey.length > 0) {
 		$("#LightBox").fadeIn(400);
 		$("#CreateEventFormContainer").fadeIn(400);
 		$("#HiddenEventId").val(eventKey);
