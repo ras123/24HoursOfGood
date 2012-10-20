@@ -1,6 +1,7 @@
 package com.timeline.project.server;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.servlet.ServletException;
@@ -17,7 +18,6 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
-import com.ibm.icu.text.SimpleDateFormat;
 
 
 @SuppressWarnings("serial")
@@ -56,7 +56,7 @@ public class StoreEvent extends HttpServlet {
         	startDate = (Date) formatter.parse(startDateStr);
         	endDate = (Date) formatter.parse(endDateStr);
         } catch (Exception e) {
-        	System.out.println("Could not parse Dates");
+        	System.out.println("Could not parse Dates "+e);
         }
         
         if (eventId == null) {
