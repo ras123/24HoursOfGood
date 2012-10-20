@@ -1,0 +1,2 @@
+serviceClass: com.timeline.project.client.GreetingService
+path: EFB023BB94AEA3ED0BCFD6BB91861C1B.gwt.rpc
