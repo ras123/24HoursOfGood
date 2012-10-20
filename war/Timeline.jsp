@@ -67,9 +67,40 @@
     </div>
     <div id="NotificationBar"></div>
 <script>
+UpdateEventHandlers();
+
+$("#DeleteEventButton").click(function(){
+	var eventId = $(this).attr("data-eventId");
+	
+	if(eventId != null || eventId != "") {
+		
+		var data = {id: eventId};
+		
+		$.ajax({
+	  	url: '/timeline/deleteEvent',
+	  	type: 'POST',
+	  	data: data,
+	  	dataType: "json",
+	 	success: function(data) {
+			console.log(data);
+	 		$("#EventList").find(".Event[data-eventId='"+ data.id+"']").slideUp();
+	 		
+	 		DisplayMessage("Event was removed from your calendar!");
+			}
+		});		
+	}
+	
+});
+
 function UpdateEventHandlers(){
 	$(".Event").click(function(){
-
+		var eventId = $(this).attr("data-eventId");
+		
+		if(eventId != null) {
+			$("#DeleteEventButton").attr("data-eventId", eventId);
+			$("#DeleteEventButton").animate({opacity: 1});
+		}
+		
 		$(this).siblings().each(function(){
 			$(this).find(".EventHidden").slideUp();
 			$(this).removeClass("ActiveEvent");
@@ -83,10 +114,12 @@ function UpdateEventHandlers(){
 		} else {
 			$(this).addClass("ActiveEvent");
 			$(this).find(".EventHidden").slideDown();	
-		}
+		}	
+		
 	}); 
-
 };
+
+
 
 
 $(".ExitButton").click(function(){
@@ -190,23 +223,7 @@ function DisplayMessage(message) {
 
 
 
-$(".Event").click(function(){
 
-	$(this).siblings().each(function(){
-		$(this).find(".EventHidden").slideUp();
-		$(this).removeClass("ActiveEvent");
-	});
-	
-	var isActive = $(this).hasClass("ActiveEvent");
-	
-	if(isActive == "false") {
-		$(this).removeClass("ActiveEvent");
-		$(this).find(".EventHidden").slideUp();		
-	} else {
-		$(this).addClass("ActiveEvent");
-		$(this).find(".EventHidden").slideDown();	
-	}
-}); 
 	
 
 </script>
