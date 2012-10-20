@@ -5,6 +5,17 @@
 <%@ page import="com.google.appengine.api.users.UserServiceFactory" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
+<%
+    UserService userService = UserServiceFactory.getUserService();
+    User user = userService.getCurrentUser();
+   
+    if (user != null) {
+    	
+    } else {
+    	response.sendRedirect("Login.jsp");
+    }
+%>
+
 <!doctype html>
 <html>
 <link rel="stylesheet" type="text/css" href="css/Timeline.css" />
@@ -40,9 +51,10 @@
 </div>
 <body>
     <div id="Header">
-        <div id="UserButton">jason</div>
+        <a href="<%= userService.createLogoutURL(request.getRequestURI()) %>"><div id="UserButton">Logout</div></a>
         <div id="CreateEventButton" class="ActionButton">create event</div>
         <div id="DeleteEventButton" class="ActionButton">delete event</div>
+        <div id="SwitchViewButton"></div>
     </div>
     
     <div id="Content">
@@ -119,11 +131,11 @@ $(".SubmitButton").click(function(){
 	
 	var startDate = $(form).find(".StartDate").val();
 	var startTime = $(form).find(".StartTime").val();
-	var startDateTime = startDate + " " + startTime;
+	var startDateTime = startDate + " " + startTime + ":00";
 	
 	var endDate = $(form).find(".EndDate").val();
 	var endTime = $(form).find(".EndTime").val();
-	var endDateTime = endDate + " " + endTime;
+	var endDateTime = endDate + " " + endTime +":00";
 	
 	var colorCode = $(form).find(".ColorCode").val();
 	var notes = $(form).find(".Notes").val();
@@ -134,16 +146,40 @@ $(".SubmitButton").click(function(){
 	$.ajax({
 	  	url: '/timeline/createEvent',
 	  	type: 'POST',
-	  	data: { title: "John" },
-	  	dataType: "text",
+	  	data: data,
+	  	dataType: "json",
 	 	success: function(data) {
-	    console.log(data);
+	 		console.log('success');
+	    	console.log(data);
 		}
 	}); 
 
 }); 
 
+/*SWITCH */
+$("#SwitchViewButton").toggle(function(){
+	$("#EventList").fadeOut(400, function(){
+		$("#Timeline").fadeIn(400);
+	});	
+	
+}, function(){
+	$("#Timeline").fadeOut(400, function(){
+		$("#EventList").fadeIn(400);
+	});
+	
+});
 
+DisplayMessage("Welcome to the Achieve Timeline Application");
+
+function DisplayMessage(message) {
+	var notificationBar = $("#NotificationBar").text(message);
+	$(notificationBar).fadeIn(1000, function(){
+		setTimeout(function(){
+			$(notificationBar).fadeOut(1000);
+		}, 3000);
+
+	});
+}
 
 </script>
 </body

@@ -30,13 +30,12 @@ public class StoreEvent extends HttpServlet {
 	@Override
 	public void init() throws ServletException {
 		// TODO Auto-generated method stub
-		super.init();
-		
+		super.init();		
 	}
 
 	public void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
-		
+
 		UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();
         String userId = user.getUserId();
@@ -62,7 +61,8 @@ public class StoreEvent extends HttpServlet {
         }
         
         // Create an entity to store event properties.
-		Entity entity = new Entity(KeyFactory.createKey("Event", userId));
+
+		Entity entity = new Entity("Event");
 		entity.setProperty("userId", userId);
 		entity.setProperty("title", title);
 		entity.setProperty("colourCode", colourCode);
@@ -75,25 +75,29 @@ public class StoreEvent extends HttpServlet {
 			entity.setProperty("eventType", "DurationEvent");
 			entity.setProperty("endDate", endDate);
 		}
+		
+		System.out.println("entity persisting: "+entity.getKey());
 
 		// Put the entity in the data store.
 		DatastoreService datastore = 
 				DatastoreServiceFactory.getDatastoreService();
 		datastore.put(entity);
+		
+		System.out.println("entity persisted: "+entity.getKey());
 
 		// Notify the client of success.
-		resp.setContentType("text/plain");
+		resp.setContentType("application/json");
 		Gson gson = new Gson();
 		String json = gson.toJson(entity);
-		resp.getWriter().println("Accepted POST " +json);
+		resp.getWriter().println(json);
 		
 	}
 	
 	public void doDelete(HttpServletRequest req, HttpServletResponse resp) {
         // Get event id from request
-        String eventKeyStr = req.getParameter("eventKey");
+        String eventId = req.getParameter("id");
         
-    	Key eventKey = KeyFactory.stringToKey(eventKeyStr);
+    	Key eventKey = KeyFactory.createKey("Event", eventId);
         
         DatastoreService datastore = 
         		DatastoreServiceFactory.getDatastoreService();
@@ -104,9 +108,9 @@ public class StoreEvent extends HttpServlet {
 	
 	public String doGetEventById(HttpServletRequest req, HttpServletResponse resp) {
         // Get event id from request
-        String eventKeyStr = req.getParameter("eventKey");
+        String eventId = req.getParameter("id");
         
-    	Key eventKey = KeyFactory.stringToKey(eventKeyStr);
+    	Key eventKey = KeyFactory.createKey("Event", eventId);
         
         DatastoreService datastore = 
         		DatastoreServiceFactory.getDatastoreService();
