@@ -17,7 +17,7 @@ public class Event {
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private Long id;
 	@Persistent
-	private User user;
+	private int userId;
 	@Persistent
 	private DateTime startDateTime;
 	@Persistent
@@ -26,16 +26,26 @@ public class Event {
 	private String notes;
 	@Persistent
 	private String colourCode;
+	@Persistent 
+	private String postSecondaryName;
 	
-	public Event(User user, DateTime startDateTime, DateTime endDateTime) {
-		this.user = user;
+	public Event(int userId, DateTime startDateTime, DateTime endDateTime) {
+		this.userId = userId;
 		this.startDateTime = startDateTime;
 		this.endDateTime = endDateTime;
 	}
 	
-	public Event(User user, DateTime startDateTime) {
-		this.user = user;
+	public Event(int userId, DateTime startDateTime) {
+		this.userId = userId;
 		this.startDateTime = startDateTime;
+	}
+	
+	public int getUserId() {
+		return userId;
+	}
+	
+	public int setUserid(int userId) {
+		this.userId = userId;
 	}
 	
 	public Long getId() {

@@ -6,15 +6,17 @@
     <servlet-class>com.timeline.project.server.GreetingServiceImpl</servlet-class>
   </servlet>
   
+  <servlet>
+    <servlet-name>storeEvent</servlet-name>
+    <servlet-class>com.timeline.project.server.StoreEvent</servlet-class>
+  </servlet>
+  
   <servlet-mapping>
     <servlet-name>greetServlet</servlet-name>
     <url-pattern>/timeline/greet</url-pattern>
   </servlet-mapping>
   
-  <servlet>
-    <servlet-name>storeEvent</servlet-name>
-    <servlet-class>com.timeline.project.server.StoreEvent</servlet-class>
-  </servlet>
+  
   
   <servlet-mapping>
     <servlet-name>storeEvent</servlet-name>
