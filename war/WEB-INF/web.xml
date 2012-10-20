@@ -11,12 +11,20 @@
     <servlet-class>com.timeline.project.server.StoreEvent</servlet-class>
   </servlet>
   
+  <servlet>
+  	<servlet-name>getEvents</servlet-name>
+  	<servlet-class>com.timeline.project.server.GetEvents</servlet-class>
+  </servlet>
+  
   <servlet-mapping>
     <servlet-name>greetServlet</servlet-name>
     <url-pattern>/timeline/greet</url-pattern>
   </servlet-mapping>
   
-  
+  <servlet-mapping>
+  	<servlet-name>getEvents</servlet-name>
+  	<url-pattern>/timeline/getEvents</url-pattern>
+  </servlet-mapping>
   
   <servlet-mapping>
     <servlet-name>storeEvent</servlet-name>
