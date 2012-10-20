@@ -23,7 +23,9 @@
 
   <body>
   	<div id="WelcomeMessage">Welcome to Achieve<span>Timeline</span></div>
+  	<div id="WelcomeMessage" style='margin-top: 10px; font-size: 14px;'>Please click the login button below to sign in to your google account.</div>
 	<div id="LoginBox">
+		<div id="LoginBoxImage"></div>
 			<a href="<%= userService.createLoginURL(request.getRequestURI()) %>"><div id="LoginButton">Login</div></a>
 	</div>
   </body>

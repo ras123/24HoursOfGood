@@ -47,6 +47,8 @@
 			
 			<div class="Label">Notes</div><br/><textarea class="Notes">My Notes</textarea>
 			<div id="CreateEventSubmitButton" class="SubmitButton">Create</div>
+			
+			<input class="HiddenEventId" id="HiddenEventId" type="Hidden" name="id">
 		</form>	
 	</div>
 </div>
@@ -69,6 +71,23 @@
 <script>
 UpdateEventHandlers();
 
+$(function() {
+	$.ajax({
+	  	url: '/timeline/getEvents',
+	  	type: 'GET',
+	  	dataType: "json",
+	 	success: function(data) {
+			console.log(data);
+			
+	 		//$("#EventList").prepend("<div data-eventId='"+data.key.id+"' class='Event' style='display: none; border: 1px solid #"+data.propertyMap.colourCode+";'><div class='EventDate' style='background-color: #"+data.propertyMap.colourCode+";'>"+data.propertyMap.startDate+"</div><div class='EventTitle'>"+data.propertyMap.title+"</div><div class='EventHidden'><div class='EventPostSecondaryName'>Post Secondary Institute: "+data.propertyMap.postSecondaryName+"</div><div class='EventStartDate'><span>Start Date:</span> "+data.propertyMap.startDate+"</div><div class='EventEndDate'><span>End Date:</span> "+data.propertyMap.endDate+"</div><div class='EventNotes'>Notes: "+data.propertyMap.notes+"</div></div></div>");
+	 		//UpdateEventHandlers();
+	 		//$("#EventList").find(".Event:first-child").slideDown(1000);
+	 		//DisplayMessage("Event successfully added!");
+		}
+	});
+});
+
+
 $("#DeleteEventButton").click(function(){
 	var eventId = $(this).attr("data-eventId");
 	
@@ -82,9 +101,9 @@ $("#DeleteEventButton").click(function(){
 	  	data: data,
 	  	dataType: "json",
 	 	success: function(data) {
-			console.log(data);
-	 		$("#EventList").find(".Event[data-eventId='"+ data.id+"']").slideUp();
-	 		
+			
+	 		$("#EventList").find(".Event[data-eventId='"+ data +"']").slideUp();
+	 		$("#EventList").find(".Event[data-eventId='"+ data +"']").remove();
 	 		DisplayMessage("Event was removed from your calendar!");
 			}
 		});		
@@ -150,7 +169,7 @@ $('#ColorCode').ColorPicker({onSubmit: function(hsb, hex, rgb, el) {
 });
 
 $("#CreateEventButton").click(function(){
-	
+	$("#HiddenEventId").val("test");
 	$("#LightBox").fadeIn(400);
 	$("#CreateEventFormContainer").fadeIn(400);
 
