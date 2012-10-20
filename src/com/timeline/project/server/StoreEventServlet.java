@@ -46,14 +46,30 @@ public class StoreEventServlet extends HttpServlet {
         String postSecondaryName = req.getParameter("postSecondaryName");
         String startDateStr = req.getParameter("startDate");
         String endDateStr = req.getParameter("endDate");
-
+        
+        boolean completeForm = true;
+        
         DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
         
-        if (startDateStr == null && endDateStr == null) {
-        	System.out.println("Event not created, start date and end date both null.");
-        	return;
+        if(title == null || title == ""){
+        	System.out.println("Missing a title, please give this event a title.");
+    		completeForm = false;
         }
-        System.out.println("start "+startDateStr+ " end "+endDateStr);
+        
+        if (startDateStr == null && endDateStr == null) {
+        	System.out.println("Event not created, missing both start and end date.");
+        	completeForm = false;
+        }
+        else if (startDateStr == null) {
+        	System.out.println("Event not created, missing a start date.");
+        	completeForm = false;
+        }
+        else if (endDateStr == null) {
+        	System.out.println("Event not created, missing an end date.");
+        	completeForm = false;
+        }
+        
+        //System.out.println("start "+startDateStr+ " end "+endDateStr);
         Date startDate = null;
         Date endDate = null;
        
@@ -62,6 +78,7 @@ public class StoreEventServlet extends HttpServlet {
         } catch (Exception e) {
         	System.out.println("Could not parse start date " + e);
         	startDate = null;
+        	completeForm = false;
         }
         
         try {
@@ -69,12 +86,27 @@ public class StoreEventServlet extends HttpServlet {
         } catch (Exception e) {
         	System.out.println("Could not parse end date " + e);
         	endDate = null;
+        	completeForm = false;
         }
         
+        int dateDifference = (int)( (endDate.getTime() - startDate.getTime())/1000);
+       
+        if ((dateDifference < 0) || (endDate.getTime()/(1000*60*60) > 24) || (startDate.getTime()/(1000*60*60) > 24))
+        {
+        	completeForm = false;
+        }
+        
+        if ((endDate.getTime()/(1000*60*60) < 0) || (startDate.getTime()/(1000*60*60) < 0))
+        {
+        	completeForm = false;
+        }
+        
+        /*
         if (startDate == null && endDate == null) {
         	System.out.println("Start and end dates are null. Event not created.");
         	return;
         }
+        */
         
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         
@@ -90,39 +122,40 @@ public class StoreEventServlet extends HttpServlet {
 				return;
 			}
         }
+        if(completeForm){
+	     // Set entity fields
+			entity.setProperty("userId", userId);
+			entity.setProperty("title", title);
+			entity.setProperty("colourCode", colourCode);
+			entity.setProperty("notes", notes);
+			entity.setProperty("postSecondaryName", postSecondaryName);
+			if (endDateStr == null) {
+				entity.setProperty("eventType", "PointEvent");
+				entity.setProperty("startDate", startDate);
+				entity.setProperty("endDate", null);
+			} else if (startDateStr == null) {
+				entity.setProperty("eventType", "PointEvent");
+				entity.setProperty("startDate", endDate);
+				entity.setProperty("endDate", null);
+			} else {
+				entity.setProperty("eventType", "DurationEvent");
+				entity.setProperty("startDate", startDate);
+				entity.setProperty("endDate", endDate);
+			}
+			
+			//System.out.println("entity persisting: "+entity.getKey());
+	
+			// Put the entity in the data store.
+			datastore.put(entity);
+			
+			//System.out.println("entity persisted: "+entity.getKey());
+	
+			// Notify the client of success.
+			resp.setContentType("application/json");
+			Gson gson = new Gson();
+			String json = gson.toJson(entity);
+			resp.getWriter().println(json);
+        }
         
-     // Set entity fields
-		entity.setProperty("userId", userId);
-		entity.setProperty("title", title);
-		entity.setProperty("colourCode", colourCode);
-		entity.setProperty("notes", notes);
-		entity.setProperty("postSecondaryName", postSecondaryName);
-		if (endDateStr == null) {
-			entity.setProperty("eventType", "PointEvent");
-			entity.setProperty("startDate", startDate);
-			entity.setProperty("endDate", null);
-		} else if (startDateStr == null) {
-			entity.setProperty("eventType", "PointEvent");
-			entity.setProperty("startDate", endDate);
-			entity.setProperty("endDate", null);
-		} else {
-			entity.setProperty("eventType", "DurationEvent");
-			entity.setProperty("startDate", startDate);
-			entity.setProperty("endDate", endDate);
-		}
-		
-		System.out.println("entity persisting: "+entity.getKey());
-
-		// Put the entity in the data store.
-		datastore.put(entity);
-		
-		System.out.println("entity persisted: "+entity.getKey());
-
-		// Notify the client of success.
-		resp.setContentType("application/json");
-		Gson gson = new Gson();
-		String json = gson.toJson(entity);
-		resp.getWriter().println(json);
-		
 	}
 }
