@@ -84,9 +84,15 @@ function UpdateCanvasEvents() {
 			}	
 		});
 		
-		$(".CanvasEvent").draggable({axis: "x"});
+		$(".CanvasEvent").draggable({axis: "x", containment: "parent", drag: function(event, ui){
+			MoveTimeline(event, ui);
+		}});
 		
 	});
+}
+
+function MoveTimeline(event, ui) {
+	console.log(event.srcElement.clientLeft);
 }
 var CANVAS_WIDTH = 5120;
 var CANVAS_HEIGHT = 480;
@@ -141,6 +147,7 @@ $(function() {
 			var index = 0;			
 			while (index < newData.length) {				
 				var data = newData[index];
+				console.log(data);
 				$("#EventList").prepend("<div data-eventId='"+data.key.id+"' class='Event' style=' border: 1px solid #"+data.propertyMap.colourCode+";'><div class='EventDate' style='background-color: #"+data.propertyMap.colourCode+";'>"+data.propertyMap.startDate+"</div><div class='EventTitle'>"+data.propertyMap.title+"</div><div class='EventHidden'><div class='EventPostSecondaryName'>Post Secondary Institute: "+data.propertyMap.postSecondaryName+"</div><div class='EventStartDate'><span>Start Date:</span> "+data.propertyMap.startDate+"</div><div class='EventEndDate'><span>End Date:</span> "+data.propertyMap.endDate+"</div><div class='EventNotes'>Notes: "+data.propertyMap.notes+"</div></div></div>");
 				var position = getPosition(data.propertyMap.startDate);
 				$("#TimelineWrap").prepend("<div data-eventId='"+data.key.id+"' class='CanvasEvent' style=' border: 1px solid #"+data.propertyMap.colourCode+"; "+ position +"'><div class='CanvasEventDate' style='display: none;background-color: #"+data.propertyMap.colourCode+";'>"+data.propertyMap.startDate+"</div><div class='CanvasEventTitle' style='background-color: #"+data.propertyMap.colourCode+";'>"+data.propertyMap.title+"</div><div class='CanvasEventNotes'>Notes: "+data.propertyMap.notes+"</div><div class='EventHidden'><div class='EventPostSecondaryName'>Post Secondary Institute: "+data.propertyMap.postSecondaryName+"</div><div class='EventStartDate'><span>Start Date:</span> "+data.propertyMap.startDate+"</div><div class='EventEndDate'><span>End Date:</span> "+data.propertyMap.endDate+"</div></div></div>");
