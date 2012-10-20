@@ -42,6 +42,7 @@ public class StoreEvent extends HttpServlet {
         
         // Get event properties from event request
         String title = req.getParameter("title");
+        String eventId = req.getParameter("id");
         String colourCode = req.getParameter("colourCode");
         String notes = req.getParameter("notes");
         String postSecondaryName = req.getParameter("postSecondaryName");
@@ -59,10 +60,21 @@ public class StoreEvent extends HttpServlet {
         } catch (Exception e) {
         	System.out.println("Could not parse Dates "+e);
         }
+
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        Entity entity = new Entity("Event");
+        if (eventId != null) {
+        	Key eventKey = KeyFactory.createKey("Event", eventId);
+        	
+        	try {
+				entity = datastore.get(eventKey);
+			} catch (EntityNotFoundException e) {
+				System.out.println("Event not found: "+e);
+				return;
+			}
+        }
         
         // Create an entity to store event properties.
-
-		Entity entity = new Entity("Event");
 		entity.setProperty("userId", userId);
 		entity.setProperty("title", title);
 		entity.setProperty("colourCode", colourCode);
@@ -79,8 +91,6 @@ public class StoreEvent extends HttpServlet {
 		System.out.println("entity persisting: "+entity.getKey());
 
 		// Put the entity in the data store.
-		DatastoreService datastore = 
-				DatastoreServiceFactory.getDatastoreService();
 		datastore.put(entity);
 		
 		System.out.println("entity persisted: "+entity.getKey());
