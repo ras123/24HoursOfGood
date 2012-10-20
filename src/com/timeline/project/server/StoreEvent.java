@@ -32,6 +32,11 @@ public class StoreEvent extends HttpServlet {
         User user = userService.getCurrentUser();
 				
         String event = req.getParameter("event");
+        String userId = req.getParameter("userId");
+        String title = req.getParameter("title");
+        String colourCode = req.getParameter("colourCode");
+        String notes = req.getParameter("notes");
+        
         
 		// Create an entity to store the image.
 		Entity entity = new Entity(KeyFactory.createKey(user.getUserId(), event));
@@ -47,5 +52,41 @@ public class StoreEvent extends HttpServlet {
 		// Notify the client of success.
 		resp.setContentType("text/plain");
 		resp.getWriter().println("Accepted POST");
+	}
+	
+	public void doDelete(HttpServletRequest req, HttpServletResponse resp) {
+		UserService userService = UserServiceFactory.getUserService();
+        User user = userService.getCurrentUser();
+        
+        String eventId = req.getParameter("eventId");
+        
+        
+    	Key eventKey = KeyFactory.createKey(user.getUserId(), eventId);
+        
+        DatastoreService datastore = 
+        		DatastoreServiceFactory.getDatastoreService();
+        datastore.delete(eventKey);
+        
+        resp.setContentType("text/plain");
+        
+        
+	}
+	
+	public void doGetAllEvents(HttpServletRequest req, HttpServletResponse resp) {
+		UserService userService = UserServiceFactory.getUserService();
+        User user = userService.getCurrentUser();
+        
+        String eventId = req.getParameter("userId");
+        
+        
+    	Key eventKey = KeyFactory.createKey(user.getUserId(), eventId);
+        
+        DatastoreService datastore = 
+        		DatastoreServiceFactory.getDatastoreService();
+        datastore.delete(eventKey);
+        
+        resp.setContentType("text/plain");
+        
+        
 	}
 }
