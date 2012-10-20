@@ -11,6 +11,16 @@
     <url-pattern>/timeline/greet</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+    <servlet-name>storeEvent</servlet-name>
+    <servlet-class>com.timeline.project.server.StoreEvent</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>storeEvent</servlet-name>
+    <url-pattern>/timeline/createEvent</url-pattern>
+  </servlet-mapping>
+  
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>Login.jsp</welcome-file>
