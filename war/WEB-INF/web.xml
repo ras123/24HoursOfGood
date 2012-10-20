@@ -28,7 +28,7 @@
   
   <servlet-mapping>
     <servlet-name>storeEvent</servlet-name>
-    <url-pattern>/timeline/createEvent/*</url-pattern>
+    <url-pattern>/timeline/createEvent/</url-pattern>
   </servlet-mapping>
   
   <servlet-mapping>

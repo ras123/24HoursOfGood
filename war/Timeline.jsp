@@ -87,6 +87,31 @@ $(function() {
 	});
 });
 
+$("#ModifyEventButton").click(function(){
+	var eventId = $(this).attr("data-eventId");
+	
+	var event = $("#EventList").find(".Event[data-eventId='"+ eventId +"']");
+	
+	var title = $(event).attr("data-title");
+	var postSecondaryName = $(event).attr("data-postSecondaryName");
+	var colorCode = $(event).attr("data-colorCode");
+	console.log(colorCode);
+	var notes = $(event).attr("data-notes");
+	
+	if(parseInt(eventId) > 0) {
+		$("#LightBox").fadeIn(400);
+		$("#CreateEventFormContainer").fadeIn(400);
+		$("#HiddenEventId").val(eventId);
+		$("#CreateEventForm .Title").val(title);
+		$("#CreateEventForm .PostSecondaryName").val(postSecondaryName);
+		$("#CreateEventForm .ColorCode").val(colorCode);
+		$("#CreateEventForm .Notes").val(notes);
+	}
+	
+	
+	
+	
+});
 
 $("#DeleteEventButton").click(function(){
 	var eventId = $(this).attr("data-eventId");
@@ -118,6 +143,11 @@ function UpdateEventHandlers(){
 		if(eventId != null) {
 			$("#DeleteEventButton").attr("data-eventId", eventId);
 			$("#DeleteEventButton").animate({opacity: 1});
+			
+			$("#ModifyEventButton").attr("data-eventId", eventId);
+			$("#ModifyEventButton").animate({opacity: 1});
+			
+			$("#HiddenEventId").val(eventId);
 		}
 		
 		$(this).siblings().each(function(){
@@ -169,10 +199,12 @@ $('#ColorCode').ColorPicker({onSubmit: function(hsb, hex, rgb, el) {
 });
 
 $("#CreateEventButton").click(function(){
-	$("#HiddenEventId").val("test");
+	$("#HiddenEventId").val("");
 	$("#LightBox").fadeIn(400);
 	$("#CreateEventFormContainer").fadeIn(400);
 
+	$("#StartDate").val('');
+	$("#EndDate").val('');
 	
 });
 
@@ -206,7 +238,7 @@ $(".SubmitButton").click(function(){
 	  	dataType: "json",
 	 	success: function(data) {
 			console.log(data);
-	 		$("#EventList").prepend("<div data-eventId='"+data.key.id+"' class='Event' style='display: none; border: 1px solid #"+data.propertyMap.colourCode+";'><div class='EventDate' style='background-color: #"+data.propertyMap.colourCode+";'>"+data.propertyMap.startDate+"</div><div class='EventTitle'>"+data.propertyMap.title+"</div><div class='EventHidden'><div class='EventPostSecondaryName'>Post Secondary Institute: "+data.propertyMap.postSecondaryName+"</div><div class='EventStartDate'><span>Start Date:</span> "+data.propertyMap.startDate+"</div><div class='EventEndDate'><span>End Date:</span> "+data.propertyMap.endDate+"</div><div class='EventNotes'>Notes: "+data.propertyMap.notes+"</div></div></div>");
+	 		$("#EventList").prepend("<div data-title='"+data.propertyMap.title+"' data-postSecondaryName='"+data.propertyMap.postSecondaryName+"' data-startDate='' data-endDate='' data-colorCode='"+data.propertyMap.colourCode+"' data-notes='"+data.propertyMap.notes+"' data-eventId='"+data.key.id+"' class='Event' style='display: none; border: 1px solid #"+data.propertyMap.colourCode+";'><div class='EventDate' style='background-color: #"+data.propertyMap.colourCode+";'>"+data.propertyMap.startDate+"</div><div class='EventTitle'>"+data.propertyMap.title+"</div><div class='EventHidden'><div class='EventPostSecondaryName'>Post Secondary Institute: "+data.propertyMap.postSecondaryName+"</div><div class='EventStartDate'><span>Start Date:</span> "+data.propertyMap.startDate+"</div><div class='EventEndDate'><span>End Date:</span> "+data.propertyMap.endDate+"</div><div class='EventNotes'>Notes: "+data.propertyMap.notes+"</div></div></div>");
 	 		UpdateEventHandlers();
 	 		$("#EventList").find(".Event:first-child").slideDown(1000);
 	 		DisplayMessage("Event successfully added!");

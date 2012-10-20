@@ -54,7 +54,7 @@ public class GetEvents extends HttpServlet {
 		}
 		
 		try {
-			resp.setContentType("text/plain");
+			resp.setContentType("application/json");
 			resp.getWriter().println(json);
 		} catch (IOException e) {
 			e.printStackTrace();
