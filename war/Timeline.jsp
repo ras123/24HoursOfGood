@@ -144,7 +144,7 @@ $(".SubmitButton").click(function(){
 	var colorCode = $(form).find(".ColorCode").val();
 	var notes = $(form).find(".Notes").val();
 	
-	var data = {title: title, postSecondaryName: postSecondaryName, startDate: startDateTime, endDate: endDateTime, colorCode: colorCode, notes: notes};
+	var data = {title: title, postSecondaryName: postSecondaryName, startDate: startDateTime, endDate: endDateTime, colourCode: colorCode, notes: notes};
 	
 	
 	$.ajax({
@@ -153,10 +153,11 @@ $(".SubmitButton").click(function(){
 	  	data: data,
 	  	dataType: "json",
 	 	success: function(data) {
-	 		
-	 		$("#EventList").prepend("<div class='Event' style='display: none;'><div class='EventDate'>"+data.propertyMap.startDate+"</div><div class='EventTitle'>"+data.propertyMap.title+"</div><div class='EventHidden'><div class='EventPostSecondaryName'>Post Secondary Institute: "+data.propertyMap.postSecondaryName+"</div><div class='EventStartDate'><span>Start Date:</span> "+data.propertyMap.startDate+"</div><div class='EventEndDate'><span>End Date:</span> "+data.propertyMap.endDate+"</div><div class='EventNotes'>Notes: "+data.propertyMap.notes+"</div></div></div>");
+			console.log(data);
+	 		$("#EventList").prepend("<div data-eventId='"+data.key.id+"' class='Event' style='display: none; border: 1px solid #"+data.propertyMap.colourCode+";'><div class='EventDate' style='background-color: #"+data.propertyMap.colourCode+";'>"+data.propertyMap.startDate+"</div><div class='EventTitle'>"+data.propertyMap.title+"</div><div class='EventHidden'><div class='EventPostSecondaryName'>Post Secondary Institute: "+data.propertyMap.postSecondaryName+"</div><div class='EventStartDate'><span>Start Date:</span> "+data.propertyMap.startDate+"</div><div class='EventEndDate'><span>End Date:</span> "+data.propertyMap.endDate+"</div><div class='EventNotes'>Notes: "+data.propertyMap.notes+"</div></div></div>");
 	 		UpdateEventHandlers();
 	 		$("#EventList").find(".Event:first-child").slideDown(1000);
+	 		DisplayMessage("Event successfully added!");
 		}
 	}); 
 
