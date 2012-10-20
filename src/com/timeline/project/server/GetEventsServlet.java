@@ -157,6 +157,7 @@ public class GetEventsServlet extends HttpServlet {
 			
 			if(userId.equals(entry))
 			{
+				result.setProperty("key", KeyFactory.keyToString(result.getKey()));
 				events.add(result);
 			}			
 		}
