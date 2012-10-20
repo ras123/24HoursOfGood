@@ -33,8 +33,9 @@ public class DeleteEventServlet extends HttpServlet {
         	System.out.println("Deleting id " + eventKeyStr);
         	Key eventKey = KeyFactory.stringToKey(eventKeyStr);
         	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        	datastore.delete(eventKey);
         	
-        	Entity event = null;
+        	/*Entity event = null;
         	try {
 				event = datastore.get(eventKey);
 			} catch (EntityNotFoundException e) {
@@ -47,7 +48,7 @@ public class DeleteEventServlet extends HttpServlet {
         		datastore.delete(eventKey);        		
         	} else {
         		System.out.println("Current user does not match requested user event. Not deleted.");
-        	}
+        	}*/
         }
         else
         {
