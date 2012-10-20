@@ -55,6 +55,7 @@
         <a href="<%= userService.createLogoutURL(request.getRequestURI()) %>"><div id="UserButton">Logout</div></a>
         <div id="CreateEventButton" class="ActionButton">create event</div>
         <div id="DeleteEventButton" class="ActionButton">delete event</div>
+        <div id="ModifyEventButton" class="ActionButton">modify event</div>
         <div id="SwitchViewButton"></div>
     </div>
     
