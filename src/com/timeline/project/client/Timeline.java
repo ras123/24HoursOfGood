@@ -39,6 +39,18 @@ public class Timeline implements EntryPoint {
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
-		
+		getEvent();
+		storeEvent();
 	} 
+	
+	public void getEvent()
+	{
+		
+	}
+	
+	public void storeEvent()
+	{
+		
+	}	
+	
 }
