@@ -41,8 +41,14 @@ public class StoreEvent extends HttpServlet {
 				
         String event = req.getParameter("event");
         
+        String userId = user.getUserId();
+        
+        if(userId.length() < 1) {
+        	userId = "0";
+        }
+        
 		// Create an entity to store the image.
-		Entity entity = new Entity(KeyFactory.createKey(user.getUserId(), event));
+		Entity entity = new Entity(KeyFactory.createKey(userId, event));
 		entity.setProperty("user", user);
 		entity.setProperty("date", new Date());
 		//entity.setProperty("content", new Text(new String(image)));
