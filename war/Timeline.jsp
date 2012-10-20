@@ -63,11 +63,7 @@
     
     <div id="Content">
     	<div id="TimelineWrap">
-    		 <canvas id="Timeline" width="5120" height="480"></canvas>
-    		 <div class="CanvasEvent">
-    		 	<div class="CanvasEventTitle">Title</div>
-    		 	<div class="CanvasEventNotes">Notes</div>
-    		 </div>
+    		 <canvas id="Timeline" width="5120" height="480"></canvas>    		 
     	</div>
        
         <div id="EventList">
@@ -85,15 +81,24 @@ function UpdateCanvasEvents() {
 		});
 		
 		$(".CanvasEvent").draggable({axis: "x", containment: "parent", drag: function(event, ui){
-			MoveTimeline(event, ui);
+			MoveTimeline(event, ui, this);
 		}});
 		
 	});
 }
 
-function MoveTimeline(event, ui) {
-	console.log(event.srcElement.clientLeft);
+function MoveTimeline(event, ui, element) {
+	var left = $(element).position().left;
+	
+	var	currentLeft = $("#Timeline").css("left").replace("px", "");
+	console.log(left);
+	
+		if(parseInt(left) > 1080) {		
+			currentLeft = $("#Timeline").css("left").replace("px", "");
+			$("#Timeline").css("left", parseInt(currentLeft) - 5);
+		}		 
 }
+
 var CANVAS_WIDTH = 5120;
 var CANVAS_HEIGHT = 480;
 
@@ -148,9 +153,9 @@ $(function() {
 			while (index < newData.length) {				
 				var data = newData[index];
 				console.log(data);
-				$("#EventList").prepend("<div data-eventId='"+data.key.id+"' class='Event' style=' border: 1px solid #"+data.propertyMap.colourCode+";'><div class='EventDate' style='background-color: #"+data.propertyMap.colourCode+";'>"+data.propertyMap.startDate+"</div><div class='EventTitle'>"+data.propertyMap.title+"</div><div class='EventHidden'><div class='EventPostSecondaryName'>Post Secondary Institute: "+data.propertyMap.postSecondaryName+"</div><div class='EventStartDate'><span>Start Date:</span> "+data.propertyMap.startDate+"</div><div class='EventEndDate'><span>End Date:</span> "+data.propertyMap.endDate+"</div><div class='EventNotes'>Notes: "+data.propertyMap.notes+"</div></div></div>");
+				$("#EventList").prepend("<div data-eventId='"+data.propertyMap.key+"' class='Event' style=' border: 1px solid #"+data.propertyMap.colourCode+";'><div class='EventDate' style='background-color: #"+data.propertyMap.colourCode+";'>"+data.propertyMap.startDate+"</div><div class='EventTitle'>"+data.propertyMap.title+"</div><div class='EventHidden'><div class='EventPostSecondaryName'>Post Secondary Institute: "+data.propertyMap.postSecondaryName+"</div><div class='EventStartDate'><span>Start Date:</span> "+data.propertyMap.startDate+"</div><div class='EventEndDate'><span>End Date:</span> "+data.propertyMap.endDate+"</div><div class='EventNotes'>Notes: "+data.propertyMap.notes+"</div></div></div>");
 				var position = getPosition(data.propertyMap.startDate);
-				$("#TimelineWrap").prepend("<div data-eventId='"+data.key.id+"' class='CanvasEvent' style=' border: 1px solid #"+data.propertyMap.colourCode+"; "+ position +"'><div class='CanvasEventDate' style='display: none;background-color: #"+data.propertyMap.colourCode+";'>"+data.propertyMap.startDate+"</div><div class='CanvasEventTitle' style='background-color: #"+data.propertyMap.colourCode+";'>"+data.propertyMap.title+"</div><div class='CanvasEventNotes'>Notes: "+data.propertyMap.notes+"</div><div class='EventHidden'><div class='EventPostSecondaryName'>Post Secondary Institute: "+data.propertyMap.postSecondaryName+"</div><div class='EventStartDate'><span>Start Date:</span> "+data.propertyMap.startDate+"</div><div class='EventEndDate'><span>End Date:</span> "+data.propertyMap.endDate+"</div></div></div>");
+				$("#TimelineWrap").prepend("<div data-eventId='"+data.propertyMap.key+"' class='CanvasEvent' style=' border: 1px solid #"+data.propertyMap.colourCode+"; "+ position +"'><div class='CanvasEventDate' style='display: none;background-color: #"+data.propertyMap.colourCode+";'>"+data.propertyMap.startDate+"</div><div class='CanvasEventTitle' style='background-color: #"+data.propertyMap.colourCode+";'>"+data.propertyMap.title+"</div><div class='CanvasEventNotes'>Notes: "+data.propertyMap.notes+"</div><div class='EventHidden'><div class='EventPostSecondaryName'>Post Secondary Institute: "+data.propertyMap.postSecondaryName+"</div><div class='EventStartDate'><span>Start Date:</span> "+data.propertyMap.startDate+"</div><div class='EventEndDate'><span>End Date:</span> "+data.propertyMap.endDate+"</div></div></div>");
 				index++;
 			}	
 	 		
@@ -172,7 +177,7 @@ function getPosition(startDate) {
 	if(parseInt(date)%2 == 0) {
 		yPosition = 120 ;
 	} else {
-		yPosition = 320;
+		yPosition = 280;
 	}
 	var returnVal = "top: " + yPosition + "px; left:" + xPosition + "px;";
 	console.log(returnVal);
@@ -209,7 +214,7 @@ $("#DeleteEventButton").click(function(){
 	var eventKey = $(this).attr("data-eventId");
 	
 	if(eventKey != null || eventKey != "") {
-		
+		console.log(eventKey);
 		var data = {key: eventKey};
 		
 		$.ajax({
@@ -231,7 +236,7 @@ $("#DeleteEventButton").click(function(){
 function UpdateEventHandlers(){
 	$(".Event").click(function(){
 		var eventId = $(this).attr("data-eventId");
-		
+		console.log(eventId);
 		if(eventId != null) {
 			$("#DeleteEventButton").attr("data-eventId", eventId);
 			$("#DeleteEventButton").animate({opacity: 1});
@@ -330,7 +335,7 @@ $(".SubmitButton").click(function(){
 	  	dataType: "json",
 	 	success: function(data) {
 			console.log(data);
-	 		$("#EventList").prepend("<div data-title='"+data.propertyMap.title+"' data-postSecondaryName='"+data.propertyMap.postSecondaryName+"' data-startDate='' data-endDate='' data-colorCode='"+data.propertyMap.colourCode+"' data-notes='"+data.propertyMap.notes+"' data-eventId='"+data.key.id+"' class='Event' style='display: none; border: 1px solid #"+data.propertyMap.colourCode+";'><div class='EventDate' style='background-color: #"+data.propertyMap.colourCode+";'>"+data.propertyMap.startDate+"</div><div class='EventTitle'>"+data.propertyMap.title+"</div><div class='EventHidden'><div class='EventPostSecondaryName'>Post Secondary Institute: "+data.propertyMap.postSecondaryName+"</div><div class='EventStartDate'><span>Start Date:</span> "+data.propertyMap.startDate+"</div><div class='EventEndDate'><span>End Date:</span> "+data.propertyMap.endDate+"</div><div class='EventNotes'>Notes: "+data.propertyMap.notes+"</div></div></div>");
+	 		$("#EventList").prepend("<div data-title='"+data.propertyMap.title+"' data-postSecondaryName='"+data.propertyMap.postSecondaryName+"' data-startDate='' data-endDate='' data-colorCode='"+data.propertyMap.colourCode+"' data-notes='"+data.propertyMap.notes+"' data-eventId='"+data.propertyMap.key+"' class='Event' style='display: none; border: 1px solid #"+data.propertyMap.colourCode+";'><div class='EventDate' style='background-color: #"+data.propertyMap.colourCode+";'>"+data.propertyMap.startDate+"</div><div class='EventTitle'>"+data.propertyMap.title+"</div><div class='EventHidden'><div class='EventPostSecondaryName'>Post Secondary Institute: "+data.propertyMap.postSecondaryName+"</div><div class='EventStartDate'><span>Start Date:</span> "+data.propertyMap.startDate+"</div><div class='EventEndDate'><span>End Date:</span> "+data.propertyMap.endDate+"</div><div class='EventNotes'>Notes: "+data.propertyMap.notes+"</div></div></div>");
 	 		UpdateEventHandlers();
 	 		$("#EventList").find(".Event:first-child").slideDown(1000);
 	 		DisplayMessage("Event successfully added!");

@@ -279,10 +279,16 @@ textarea {
 }
 
 #TimelineWrap {
-    width: 5120px;
+    width: 1280px;
     height: 480px;
     position: relative;  
     display: none; 
+}
+
+#Timeline {
+	position: absolute; 
+	left: 0px;
+	top: 0px;
 }
 
 #TimelineWrap .CanvasEvent {
