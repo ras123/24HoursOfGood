@@ -2,9 +2,11 @@ package com.timeline.project.server;
 
 import java.io.IOException;
 import java.text.DateFormat;
-import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,6 +19,11 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.Query.FilterPredicate;
+import com.google.appengine.api.datastore.Query.FilterOperator;
 
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
@@ -138,26 +145,46 @@ public class StoreEvent extends HttpServlet {
         return null;
 	}
 	
-	public String doGetEventsByDate(HttpServletRequest req, HttpServletResponse resp) {
+	public List<String> doGetEventsByDate(HttpServletRequest req, HttpServletResponse resp) {
 		UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();
-        /*
-        // Get event id from request
-        String month = req.getParameter("month");
-        String year = req.getParameter("year");
+        String userId = user.getUserId();
+        
+     // Get event id from request
+        String dateStr = req.getParameter("date");
+        DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+        Date date = new Date();
+       
+        List<String> eventsJson = new ArrayList<String>();
+        try {
+        	date = (Date) formatter.parse(dateStr);
+        } catch (Exception e) {
+        	System.out.println("Could not parse Date, "+date+", "+e);
+        	return eventsJson;
+        }
+        
+        Calendar fromDate = Calendar.getInstance();
+        fromDate.setTime(date);
         
         DatastoreService datastore = 
         		DatastoreServiceFactory.getDatastoreService();
-        try {
-			Entity event = datastore.get(eventKey);
-			resp.setContentType("text/plain");
-	        
-			String json = JSON.toString(event);
-			System.out.println("Event Json: "+json);
-	        return json;
-		} catch (EntityNotFoundException e) {
-			System.out.println("Event not found: "+e);
-		}*/
-        return null;
+        
+        Filter userFilter = new FilterPredicate("userId", FilterOperator.EQUAL, userId);
+        Query q = new Query("Event").setFilter(userFilter);
+        PreparedQuery pq = datastore.prepare(q);
+        
+        for (Entity event : pq.asIterable()) {
+        	Date startDate = (Date) event.getProperty("startDate");
+        	Calendar toDate = Calendar.getInstance();
+        	toDate.setTime(startDate);
+        	
+        	if (!toDate.before(fromDate)) {
+        		Gson gson = new Gson();
+    			String json = gson.toJson(event);
+    			eventsJson.add(json);
+        	}
+        }
+        
+        return eventsJson;
 	}
 }
