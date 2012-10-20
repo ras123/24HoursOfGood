@@ -21,6 +21,8 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 
 @SuppressWarnings("serial")
@@ -43,7 +45,6 @@ public class StoreEvent extends HttpServlet {
         String userId = user.getUserId();
         
         // Get event properties from event request
-        String eventId = req.getParameter("eventId");
         String title = req.getParameter("title");
         String colourCode = req.getParameter("colourCode");
         String notes = req.getParameter("notes");
@@ -62,12 +63,8 @@ public class StoreEvent extends HttpServlet {
         	System.out.println("Could not parse Dates "+e);
         }
         
-        if (eventId == null) {
-        	eventId = String.format("%d", eventIdCounter++);
-        }
-        
         // Create an entity to store event properties.
-		Entity entity = new Entity(KeyFactory.createKey(userId, eventId));
+		Entity entity = new Entity("Event");
 		entity.setProperty("user", user);
 		entity.setProperty("title", title);
 		entity.setProperty("colourCode", colourCode);
@@ -88,18 +85,17 @@ public class StoreEvent extends HttpServlet {
 
 		// Notify the client of success.
 		resp.setContentType("text/plain");
-		resp.getWriter().println("Accepted POST");
+		Gson gson = new Gson();
+		String json = gson.toJson(entity);
+		resp.getWriter().println("Accepted POST " +json);
 		
 	}
 	
 	public void doDelete(HttpServletRequest req, HttpServletResponse resp) {
-		UserService userService = UserServiceFactory.getUserService();
-        User user = userService.getCurrentUser();
-        
         // Get event id from request
-        String eventId = req.getParameter("eventId");
+        String eventKeyStr = req.getParameter("eventKey");
         
-    	Key eventKey = KeyFactory.createKey(user.getUserId(), eventId);
+    	Key eventKey = KeyFactory.stringToKey(eventKeyStr);
         
         DatastoreService datastore = 
         		DatastoreServiceFactory.getDatastoreService();
@@ -109,13 +105,34 @@ public class StoreEvent extends HttpServlet {
 	}
 	
 	public String doGetEventById(HttpServletRequest req, HttpServletResponse resp) {
+        // Get event id from request
+        String eventKeyStr = req.getParameter("eventKey");
+        
+    	Key eventKey = KeyFactory.stringToKey(eventKeyStr);
+        
+        DatastoreService datastore = 
+        		DatastoreServiceFactory.getDatastoreService();
+        try {
+			Entity event = datastore.get(eventKey);
+			resp.setContentType("text/plain");
+	        
+			Gson gson = new Gson();
+			String json = gson.toJson(event);
+			System.out.println("Event Json: "+json);
+	        return json;
+		} catch (EntityNotFoundException e) {
+			System.out.println("Event not found: "+e);
+		}
+        return null;
+	}
+	
+	public String doGetEventsByDate(HttpServletRequest req, HttpServletResponse resp) {
 		UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();
-        
-     // Get event id from request
-        String eventId = req.getParameter("eventId");
-        
-    	Key eventKey = KeyFactory.createKey(user.getUserId(), eventId);
+        /*
+        // Get event id from request
+        String month = req.getParameter("month");
+        String year = req.getParameter("year");
         
         DatastoreService datastore = 
         		DatastoreServiceFactory.getDatastoreService();
@@ -128,7 +145,7 @@ public class StoreEvent extends HttpServlet {
 	        return json;
 		} catch (EntityNotFoundException e) {
 			System.out.println("Event not found: "+e);
-		}
+		}*/
         return null;
 	}
 }
