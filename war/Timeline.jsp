@@ -12,13 +12,16 @@
 <head>
     <title>Calendar</title>    
 </head>
-
+<div id="LightBox">
+    	 
+    </div>
 <body>
     <div id="Header">
         <div id="UserButton">jason</div>
         <div id="CreateEventButton" class="ActionButton">create event</div>
         <div id="DeleteEventButton" class="ActionButton">delete event</div>
     </div>
+    
     <div id="Content">
         <div id="Timeline"></div>
         <div id="EventList">
@@ -51,8 +54,16 @@
     </div>
     <div id="NotificationBar"></div>
     <script>
+    
 $("#CreateEventButton").click(function(){
-	alert('clicked');
+	console.log('clicked');
+	$.ajax({
+	  	url: '/timeline/createEvent',
+	  	type: 'POST',
+	 	success: function(data) {
+	    console.log(data);
+	}
+});
 });
 </script>
 </body
