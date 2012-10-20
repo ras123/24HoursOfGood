@@ -30,7 +30,7 @@ public class StoreEvent extends HttpServlet {
 	public void init() throws ServletException {
 		// TODO Auto-generated method stub
 		super.init();
-		System.out.println("test");
+		
 	}
 
 	public void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -38,11 +38,11 @@ public class StoreEvent extends HttpServlet {
 		
 		UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();
-				
-        String event = req.getParameter("event");
+       
+        String event = req.getParameter("title");
         
         String userId = user.getUserId();
-        
+        System.out.println(userId + "user id");
         if(userId.length() < 1) {
         	userId = "0";
         }

@@ -9,12 +9,30 @@
 <html>
 <link rel="stylesheet" type="text/css" href="css/Timeline.css" />
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script src="http://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="css/vader/jquery-ui-1.8.21.custom.css" />
+<link rel="stylesheet" media="screen" type="text/css" href="css/colorpicker.css" />
+<script type="text/javascript" src="js/colorpicker.js"></script>
 <head>
     <title>Calendar</title>    
 </head>
 <div id="LightBox">
-    	 
-    </div>
+	<div class="FormContainer">
+		<div class="FormTitle">Create a new event</div>
+		<form>
+		<br />
+			<div class="Label">Event Title</div><input type="text" name="title"><br/><br/>
+			<div class="Label">Start Date</div><input id="StartDate" type="text" name="startDate"><div class="Label">Start Time</div><input id="StartTime" type="text" name="startTime"><br/>
+			
+			
+			<div class="Label">End Date</div><input id="EndDate" type="text" name="endDateTime"><div class="Label">End Time</div><input id="EndTime" type="text" name="endDateTime"><br/>
+			
+			<div class="Label">Event Color</div><input id="ColorCode" type="text" name="colorCode"><br/><br/>
+			
+			<div class="Label">Details</div><br/><textarea></textarea>
+		</form>	
+	</div>
+</div>
 <body>
     <div id="Header">
         <div id="UserButton">jason</div>
@@ -53,17 +71,41 @@
         </div>
     </div>
     <div id="NotificationBar"></div>
-    <script>
-    
+<script>
+
+$(function() {
+	$( "#StartDate" ).datepicker();
+});
+
+$(function() {
+	$( "#EndDate" ).datepicker();
+});
+
+$('#ColorCode').ColorPicker({onSubmit: function(hsb, hex, rgb, el) {
+		$(el).val(hex);
+		$(el).ColorPickerHide();
+	},
+	onBeforeShow: function () {
+		$(this).ColorPickerSetColor(this.value);
+		
+	}
+})
+.bind('keyup', function(){
+	$(this).ColorPickerSetColor(this.value);
+	
+});
+
 $("#CreateEventButton").click(function(){
 	console.log('clicked');
 	$.ajax({
 	  	url: '/timeline/createEvent',
 	  	type: 'POST',
+	  	data: { title: "John" },
+	  	dataType: "text",
 	 	success: function(data) {
 	    console.log(data);
-	}
-});
+		}
+	});
 });
 </script>
 </body
