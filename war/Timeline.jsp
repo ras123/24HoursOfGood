@@ -64,7 +64,8 @@
     
     <div id="Content">
     	<div id="TimelineWrap">
-    		 <canvas id="Timeline" width="5120" height="480"></canvas>    		 
+    		 <canvas id="Timeline" width="5120" height="480"></canvas>  
+    		 <div id="Month">October</div>  		 
     	</div>
        
         <div id="EventList">
@@ -133,7 +134,7 @@ var CANVAS_HEIGHT = 480;
 
 var canvas = document.getElementById("Timeline");
 var context = canvas.getContext("2d");
-context.strokeStyle = "#dddddd";
+context.strokeStyle = "#cccccc";
 context.lineWidth = 1;
 BuildTimeline(context);
 
@@ -157,7 +158,7 @@ function AddTicks(context) {
 	while(index < numRegions - 1) {
 		context.moveTo(xPos, yPos);
 		context.lineTo(xPos, yPos + 18);
-		context.fillStyle = "#cccccc";
+		context.fillStyle = "#aaaaaa";
 		context.fillText(index + 1, xPos + (regionSize/2) ,yPos + 180);
 		
 		xPos = xPos + regionSize;

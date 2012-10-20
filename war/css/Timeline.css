@@ -275,6 +275,29 @@ textarea {
 	box-shadow: 0px 0px 8px orange;
 }
 
+#Month {
+	position: absolute;
+	top: 448px;
+	left: 600px;
+	padding: 6px;
+	width: 140px;
+	height: 20px;
+	background-color: #0126B1;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF7A19', endColorstr='#EC6400');
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#FF7A19), to(#EC6400));
+	background-image: -webkit-linear-gradient(top, #FF7A19, #EC6400);
+	background-image: -moz-linear-gradient(top, #FF7A19, #EC6400);
+	background-image: -o-linear-gradient(top, #FF7A19, #EC6400);
+	background-image: -ms-linear-gradient(top, #FF7A19, #EC6400);
+	background-image: linear-gradient(top, #FF7A19, #EC6400);
+	color: white;
+	border-top-right-radius: 4px;
+	text-align: center;
+	border-top-left-radius: 4px;
+	
+	
+}
+
 
 
 #Content {
