@@ -21,6 +21,11 @@
   	<servlet-class>com.timeline.project.server.GetEventsServlet</servlet-class>
   </servlet>
   
+  <servlet>
+  	<servlet-name>getPostSecondaryNames</servlet-name>
+  	<servlet-class>com.timeline.project.server.GetPostSecondaryServlet</servlet-class>
+  </servlet>
+  
   <servlet-mapping>
     <servlet-name>greetServlet</servlet-name>
     <url-pattern>/timeline/greet</url-pattern>
@@ -39,6 +44,11 @@
   <servlet-mapping>
     <servlet-name>deleteEvent</servlet-name>
     <url-pattern>/timeline/deleteEvent</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+  	<servlet-name>getPostSecondaryNames</servlet-name>
+  	<url-pattern>/timeline/getPostSecondaries</url-pattern>
   </servlet-mapping>
   
   <!-- Default page to serve -->
