@@ -226,6 +226,22 @@ textarea {
 	background-image: -o-linear-gradient(top, #DD4B39, #D14836);
 	background-image: -ms-linear-gradient(top, #DD4B39, #D14836);
 	background-image: linear-gradient(top, #DD4B39, #D14836);
+	opacity: 0.3;
+}
+
+#ModifyEventButton {
+    position: absolute;
+    top: 160px;
+    left: 340px;
+    background-color: #0126B1;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF7A19', endColorstr='#EC6400');
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#FF7A19), to(#EC6400));
+	background-image: -webkit-linear-gradient(top, #FF7A19, #EC6400);
+	background-image: -moz-linear-gradient(top, #FF7A19, #EC6400);
+	background-image: -o-linear-gradient(top, #FF7A19, #EC6400);
+	background-image: -ms-linear-gradient(top, #FF7A19, #EC6400);
+	background-image: linear-gradient(top, #FF7A19, #EC6400);
+	opacity: 0.3;
 }
 
 #SwitchViewButton {
