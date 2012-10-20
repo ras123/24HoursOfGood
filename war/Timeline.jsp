@@ -48,7 +48,7 @@
 			<div class="Label">Notes</div><br/><textarea class="Notes">My Notes</textarea>
 			<div id="CreateEventSubmitButton" class="SubmitButton">Create</div>
 			
-			<input class="HiddenEventId" id="HiddenEventId" type="Hidden" name="id">
+			<input class="HiddenEventId" id="HiddenEventId" type="Hidden" name="key">
 		</form>	
 	</div>
 </div>
@@ -173,9 +173,9 @@ function getPosition(startDate) {
 }
 
 $("#ModifyEventButton").click(function(){
-	var eventId = $(this).attr("data-eventId");
+	var eventKey = $(this).attr("data-eventId");
 	
-	var event = $("#EventList").find(".Event[data-eventId='"+ eventId +"']");
+	var event = $("#EventList").find(".Event[data-eventId='"+ eventKey +"']");
 	
 	var title = $(event).attr("data-title");
 	var postSecondaryName = $(event).attr("data-postSecondaryName");
@@ -183,10 +183,10 @@ $("#ModifyEventButton").click(function(){
 	console.log(colorCode);
 	var notes = $(event).attr("data-notes");
 	
-	if(parseInt(eventId) > 0) {
+	if(parseInt(eventKey) > 0) {
 		$("#LightBox").fadeIn(400);
 		$("#CreateEventFormContainer").fadeIn(400);
-		$("#HiddenEventId").val(eventId);
+		$("#HiddenEventId").val(eventKey);
 		$("#CreateEventForm .Title").val(title);
 		$("#CreateEventForm .PostSecondaryName").val(postSecondaryName);
 		$("#CreateEventForm .ColorCode").val(colorCode);
@@ -199,11 +199,11 @@ $("#ModifyEventButton").click(function(){
 });
 
 $("#DeleteEventButton").click(function(){
-	var eventId = $(this).attr("data-eventId");
+	var eventKey = $(this).attr("data-eventId");
 	
-	if(eventId != null || eventId != "") {
+	if(eventKey != null || eventKey != "") {
 		
-		var data = {id: eventId};
+		var data = {key: eventKey};
 		
 		$.ajax({
 	  	url: '/timeline/deleteEvent',

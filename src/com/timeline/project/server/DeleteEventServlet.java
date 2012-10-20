@@ -27,11 +27,11 @@ public class DeleteEventServlet extends HttpServlet {
         User user = userService.getCurrentUser();
         String userId = user.getUserId();
         
-        String eventId = req.getParameter("id");
+        String eventKeyStr = req.getParameter("key");
         
-        if (eventId != null) {
-        	System.out.println("Deleting id " + eventId);
-        	Key eventKey = KeyFactory.createKey("Event", eventId);
+        if (eventKeyStr != null) {
+        	System.out.println("Deleting id " + eventKeyStr);
+        	Key eventKey = KeyFactory.stringToKey(eventKeyStr);
         	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         	
         	Entity event = null;
@@ -51,13 +51,13 @@ public class DeleteEventServlet extends HttpServlet {
         }
         else
         {
-        	System.out.println("Id " + eventId + " could not be found");
-        	eventId = "-1";
+        	System.out.println("Id " + eventKeyStr + " could not be found");
+        	eventKeyStr = "-1";
         }
         
         resp.setContentType("application/json");
     	Gson gson = new Gson();
-		String json = gson.toJson(eventId);
+		String json = gson.toJson(eventKeyStr);
 		resp.getWriter().println(json);
 	}
 	
