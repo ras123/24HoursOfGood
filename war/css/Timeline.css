@@ -160,7 +160,7 @@ textarea {
 #Header {
     height: 200px;
     position: relative;
-    background-image: url('../images/header.jpg');
+    background-image: url('../images/header3.jpg');
     background-repeat: no-repeat;
 }
 
@@ -254,7 +254,7 @@ textarea {
     border: 1px solid rgb(200,200,200);
     font-size: 18px;
     cursor: pointer;
-    background-color: #0126B1;
+    background-color: #4DB849;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#4DB849', endColorstr='#88CA86');
 	background-image: -webkit-gradient(linear, left top, left bottom, from(#88CA86), to(#4DB849));
 	background-image: -webkit-linear-gradient(top, #88CA86, #4DB849);
@@ -305,4 +305,86 @@ textarea {
     text-align: center;
     margin-top: 20px;
     font-size: 16px;
+}
+
+/*EVENT STUFF*/
+
+.Event {
+	border: 1px solid #4D90FD;
+	margin-top: 14px;
+	border-radius: 4px;
+	cursor: pointer;
+	color: rgb(100,100,100);
+	
+}
+
+.Event:hover {
+	box-shadow: 0px 0px 8px orange;
+}
+
+.Event span {
+	color: rgb(80,80,80);
+	
+}
+
+.EventDate {
+	padding: 6px;
+	background-color: #0126B1;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#4D90FD', endColorstr='#4787ED');
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#4D90FD), to(#4787ED));
+	background-image: -webkit-linear-gradient(top, #4D90FD, #4787ED);
+	background-image: -moz-linear-gradient(top, #4D90FD, #4787ED);
+	background-image: -o-linear-gradient(top, #4D90FD, #4787ED);
+	background-image: -ms-linear-gradient(top, #4D90FD, #4787ED);
+	background-image: linear-gradient(top, #4D90FD, #4787ED);
+	font-size: 16px;
+	color: white;
+}
+
+.EventTitle {
+	padding: 6px;
+	font-size: 20px;
+}
+
+.EventHidden {
+	display: none;
+}
+
+.EventPostSecondaryName {
+	padding: 6px;
+}
+
+.EventStartDate {
+	display: inline-block;
+	padding: 6px;
+	color: #4DB849;
+}
+
+.EventEndDate {
+	margin-left: 60px;
+	display: inline-block;
+	padding: 6px;
+	color: #4D90FD;
+}
+
+.EventNotes {
+	Padding: 6px;
+}
+
+
+.ActiveEvent {
+	border: 1px solid #FFA019;
+	box-shadow: 0px 0px 8px orange;
+}
+
+.ActiveEvent .EventDate {
+	background-color: #0126B1;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFA019', endColorstr='#FF8019');
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#FFA019), to(#FF8019));
+	background-image: -webkit-linear-gradient(top, #FFA019, #FF8019);
+	background-image: -moz-linear-gradient(top, #FFA019, #FF8019);
+	background-image: -o-linear-gradient(top, #FFA019, #FF8019);
+	background-image: -ms-linear-gradient(top, #FFA019, #FF8019);
+	background-image: linear-gradient(top, #FFA019, #FF8019);
+	
 }

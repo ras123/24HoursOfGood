@@ -62,35 +62,32 @@
     <div id="Content">
         <div id="Timeline"></div>
         <div id="EventList">
-            <div class="DateTitle">Friday Oct 12, 2012</div>
-            <div class="EventInfo">Drive to google.</div>
-            <div class="EventInfo">Google hackathon</div>
-            
-            <div class="DateTitle">Friday Oct 12, 2012</div>
-            <div class="EventInfo">Drive to google.</div>
-            <div class="EventInfo">Google hackathon</div>
-            
-            <div class="DateTitle">Friday Oct 12, 2012</div>
-            <div class="EventInfo">Drive to google.</div>
-            <div class="EventInfo">Google hackathon</div>
-            
-            <div class="DateTitle">Friday Oct 12, 2012</div>
-            <div class="EventInfo">Drive to google.</div>
-            <div class="EventInfo">Google hackathon</div>
-            
-            <div class="DateTitle">Friday Oct 12, 2012</div>
-            <div class="EventInfo">Drive to google.</div>
-            <div class="EventInfo">Google hackathon</div>
-            
-            <div class="DateTitle">Friday Oct 12, 2012</div>
-            <div class="EventInfo">Drive to google.</div>
-            <div class="EventInfo">Google hackathon</div>
-            
             
         </div>
     </div>
     <div id="NotificationBar"></div>
 <script>
+function UpdateEventHandlers(){
+	$(".Event").click(function(){
+
+		$(this).siblings().each(function(){
+			$(this).find(".EventHidden").slideUp();
+			$(this).removeClass("ActiveEvent");
+		});
+		
+		var isActive = $(this).hasClass("ActiveEvent");
+		
+		if(isActive == "false") {
+			$(this).removeClass("ActiveEvent");
+			$(this).find(".EventHidden").slideUp();		
+		} else {
+			$(this).addClass("ActiveEvent");
+			$(this).find(".EventHidden").slideDown();	
+		}
+	}); 
+
+};
+
 
 $(".ExitButton").click(function(){
 	$("#LightBox").fadeOut(400);
@@ -148,7 +145,7 @@ $(".SubmitButton").click(function(){
 	var notes = $(form).find(".Notes").val();
 	
 	var data = {title: title, postSecondaryName: postSecondaryName, startDate: startDateTime, endDate: endDateTime, colorCode: colorCode, notes: notes};
-	console.log(data);
+	
 	
 	$.ajax({
 	  	url: '/timeline/createEvent',
@@ -156,8 +153,10 @@ $(".SubmitButton").click(function(){
 	  	data: data,
 	  	dataType: "json",
 	 	success: function(data) {
-	 		console.log('success');
-	    	console.log(data);
+	 		
+	 		$("#EventList").prepend("<div class='Event' style='display: none;'><div class='EventDate'>"+data.propertyMap.startDate+"</div><div class='EventTitle'>"+data.propertyMap.title+"</div><div class='EventHidden'><div class='EventPostSecondaryName'>Post Secondary Institute: "+data.propertyMap.postSecondaryName+"</div><div class='EventStartDate'><span>Start Date:</span> "+data.propertyMap.startDate+"</div><div class='EventEndDate'><span>End Date:</span> "+data.propertyMap.endDate+"</div><div class='EventNotes'>Notes: "+data.propertyMap.notes+"</div></div></div>");
+	 		UpdateEventHandlers();
+	 		$("#EventList").find(".Event:first-child").slideDown(1000);
 		}
 	}); 
 
@@ -187,6 +186,27 @@ function DisplayMessage(message) {
 
 	});
 }
+
+
+
+$(".Event").click(function(){
+
+	$(this).siblings().each(function(){
+		$(this).find(".EventHidden").slideUp();
+		$(this).removeClass("ActiveEvent");
+	});
+	
+	var isActive = $(this).hasClass("ActiveEvent");
+	
+	if(isActive == "false") {
+		$(this).removeClass("ActiveEvent");
+		$(this).find(".EventHidden").slideUp();		
+	} else {
+		$(this).addClass("ActiveEvent");
+		$(this).find(".EventHidden").slideDown();	
+	}
+}); 
+	
 
 </script>
 </body

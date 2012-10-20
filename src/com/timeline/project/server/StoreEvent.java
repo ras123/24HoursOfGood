@@ -246,4 +246,39 @@ public class StoreEvent extends HttpServlet {
         
         return eventsJson;
 	}
+	
+	public void doGetAllEvents(HttpServletRequest req, HttpServletResponse resp)
+	{
+		DatastoreService datastore = 
+        		DatastoreServiceFactory.getDatastoreService();
+		
+		UserService userService = UserServiceFactory.getUserService();
+		User user = userService.getCurrentUser();
+        String userId = user.getUserId();
+        
+		Query q = new Query("Event");
+		PreparedQuery pq = datastore.prepare(q);
+		
+		List<Entity> list = new ArrayList<Entity>();
+		
+		for (Entity result : pq.asIterable()) {
+			String entry = (String) result.getProperty("userId");
+			
+			if(userId.equals(entry))
+			{
+				list.add(result);
+			}			
+		}
+		
+		// Notify the client of success.
+		resp.setContentType("text/plain");
+		Gson gson = new Gson();
+		String json = gson.toJson(list.toString());
+		try {
+			resp.getWriter().println(json);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
