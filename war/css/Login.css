@@ -57,4 +57,30 @@ body {
 #WelcomeMessage {
 	text-align: center;
 	margin-top: 200px;
+	margin-bottom: 20px;
+	font-size: 18px;
+}
+
+#WelcomeMessage span {
+	color: orange;
+
+}
+
+#LoginBox {
+	width: 400px;
+	padding: 20px;
+	border: 1px solid rgb(200,200,200);
+	border-radius: 4px;
+	margin: 0 auto;		
+	box-shadow: 0px 4px 4px -4px rgb(200,200,200);
+}
+
+#LoginButton {
+	width: 140px;
+    text-align: center;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    border-radius: 4px;
+    border: 1px solid rgb(200,200,200);
+    margin: 0 auto;
 }

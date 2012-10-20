@@ -1,0 +1,136 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+
+/* Start of my code
+*/
+
+body {
+    width: 1280px;
+    margin: 0 auto; 
+    font-variant: small-caps;
+}
+
+#Header {
+    height: 200px;
+    border: 1px solid rgb(200,200,200);
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    position: relative;
+    
+}
+
+#UserButton {
+    position: absolute;
+    top: 0px;
+    right: 20px;
+    padding: 26px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border: 1px solid rgb(200,200,200);
+}
+
+.ActionButton {
+    position: absolute;
+    width: 140px;
+    text-align: center;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    border-radius: 4px;
+    border: 1px solid rgb(200,200,200);
+}
+
+#CreateEventButton {
+    position: absolute;
+    top: 160px;
+    left: 20px;    
+}
+
+#DeleteEventButton {
+    position: absolute;
+    top: 160px;
+    left: 180px;
+}
+
+
+
+#Content {
+    height: 480px;
+    overflow: hidden;
+}
+
+#Timeline {
+    width: 5120px;
+    height: 480px;
+    display: none;
+}
+
+#EventList {
+    height: 480px;
+    padding-left: 20px;
+    padding-right: 20px;
+    overflow: auto;
+}
+
+.DateTitle {
+    margin-top: 20px;
+    font-size: 16px;
+    border-bottom: 1px solid rgb(200,200,200);
+    font-weight: bold;
+}
+
+#NotificationBar {
+    height: 40px;
+    border: 1px solid rgb(200,200,200);
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    position: relative;
+}
