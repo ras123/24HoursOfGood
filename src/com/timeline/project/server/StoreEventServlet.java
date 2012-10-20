@@ -24,7 +24,7 @@ import com.google.gson.Gson;
 
 
 @SuppressWarnings("serial")
-public class StoreEvent extends HttpServlet {
+public class StoreEventServlet extends HttpServlet {
 	
 	@Override
 	public void init() throws ServletException {

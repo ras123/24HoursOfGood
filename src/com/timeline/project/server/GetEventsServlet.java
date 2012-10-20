@@ -30,7 +30,7 @@ import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
 
 @SuppressWarnings("serial")
-public class GetEvents extends HttpServlet {
+public class GetEventsServlet extends HttpServlet {
 	
 	@Override
 	public void init() throws ServletException {
@@ -54,7 +54,7 @@ public class GetEvents extends HttpServlet {
 		}
 		
 		try {
-			resp.setContentType("text/plain");
+			resp.setContentType("application/json");
 			resp.getWriter().println(json);
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -8,7 +8,7 @@
   
   <servlet>
     <servlet-name>storeEvent</servlet-name>
-    <servlet-class>com.timeline.project.server.StoreEvent</servlet-class>
+    <servlet-class>com.timeline.project.server.StoreEventServlet</servlet-class>
   </servlet>
   
   <servlet>
@@ -18,7 +18,7 @@
   
   <servlet>
   	<servlet-name>getEvents</servlet-name>
-  	<servlet-class>com.timeline.project.server.GetEvents</servlet-class>
+  	<servlet-class>com.timeline.project.server.GetEventsServlet</servlet-class>
   </servlet>
   
   <servlet-mapping>
