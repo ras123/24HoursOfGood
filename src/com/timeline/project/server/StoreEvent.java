@@ -1,6 +1,7 @@
 package com.timeline.project.server;
 
 import java.io.IOException;
+import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -8,8 +9,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.mortbay.util.ajax.JSON;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -22,13 +21,10 @@ import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 
 @SuppressWarnings("serial")
 public class StoreEvent extends HttpServlet {
-	
-	private static int eventIdCounter = 0;
 	
 	@Override
 	public void init() throws ServletException {
@@ -42,7 +38,6 @@ public class StoreEvent extends HttpServlet {
 		
 		UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();
-
         String userId = user.getUserId();
         
         // Get event properties from event request
@@ -53,20 +48,19 @@ public class StoreEvent extends HttpServlet {
         String startDateStr = req.getParameter("startDate");
         String endDateStr = req.getParameter("endDate");
 
-        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+        Format formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
         Date startDate = new Date();
         Date endDate = new Date();
        
         try {
-        	startDate = (Date) formatter.parse(startDateStr);
-        	endDate = (Date) formatter.parse(endDateStr);
+        	startDate = (Date) formatter.parseObject(startDateStr);
+        	endDate = (Date) formatter.parseObject(endDateStr);
         } catch (Exception e) {
         	System.out.println("Could not parse Dates "+e);
-
         }
         
         // Create an entity to store event properties.
-		Entity entity = new Entity("Event");
+		Entity entity = new Entity(KeyFactory.createKey("Event", userId));
 		entity.setProperty("user", user);
 		entity.setProperty("title", title);
 		entity.setProperty("colourCode", colourCode);
