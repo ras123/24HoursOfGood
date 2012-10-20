@@ -71,7 +71,6 @@ public class StoreEventServlet extends HttpServlet {
         } catch (Exception e) {
         	System.out.println("Could not parse start date " + e);
         	startDate = null;
-        	completeForm = false;
         }
         
         try {
@@ -79,21 +78,22 @@ public class StoreEventServlet extends HttpServlet {
         } catch (Exception e) {
         	System.out.println("Could not parse end date " + e);
         	endDate = null;
-        	completeForm = false;
         }
         
-        int dateDifference = (int)( (endDate.getTime() - startDate.getTime())/1000);
-       
-        if ((dateDifference < 0) )//|| (endDate.getTime()/(1000*60*60) > 24) || (startDate.getTime()/(1000*60*60) > 24))
-        {
-        	completeForm = false;
-        	System.out.println(dateDifference+" date difference");
-        }
-        
-        if ((endDate.getTime()/(1000*60*60) < 0) || (startDate.getTime()/(1000*60*60) < 0))
-        {
-        	completeForm = false;
-        	System.out.println("neg value");
+        if (endDate != null && startDate != null) {
+        	int dateDifference = (int)( (endDate.getTime() - startDate.getTime())/1000);
+            
+            if ((dateDifference < 0) )//|| (endDate.getTime()/(1000*60*60) > 24) || (startDate.getTime()/(1000*60*60) > 24))
+            {
+            	completeForm = false;
+            	System.out.println(dateDifference+" date difference");
+            }
+            
+            if ((endDate.getTime()/(1000*60*60) < 0) || (startDate.getTime()/(1000*60*60) < 0))
+            {
+            	completeForm = false;
+            	System.out.println("neg value");
+            }
         }
         
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();

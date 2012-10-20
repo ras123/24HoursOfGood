@@ -23,6 +23,7 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
+import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
@@ -85,6 +86,7 @@ public class GetEventsServlet extends HttpServlet {
          
          Filter userFilter = new FilterPredicate("userId", FilterOperator.EQUAL, userId);
          Query q = new Query("Event").setFilter(userFilter);
+         q.addSort("startDate", SortDirection.ASCENDING);
          PreparedQuery pq = datastore.prepare(q);
          
         if (monthBool != null) {
@@ -147,7 +149,10 @@ public class GetEventsServlet extends HttpServlet {
 		User user = userService.getCurrentUser();
         String userId = user.getUserId();
         
+        
+        
 		Query q = new Query("Event");
+		q.addSort("startDate");
 		PreparedQuery pq = datastore.prepare(q);
 		
 		List<Entity> events = new ArrayList<Entity>();
